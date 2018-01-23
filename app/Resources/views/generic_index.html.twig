@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id = "datalist" class = "datalist">
+        <div class = "container title">
+            <div class = "row">
+                <div class = "col-md-6"><h4>List of {{ plural_name }}</h4></div>
+                <div class = "col-md-4"><input class = "search form-control" placeholder = "Search"></div>
+                <div class = "col-md-2">
+                    <a class = "btn btn-success btn-block"  data-toggle = "modal" data-target = "#newModal">+Add</a>
+                </div>
+            </div>
+        </div>
+
+        <div class = "container list">
+            {% for item in items %}
+                <div class = "row">
+                    <div class = "col-md-12">
+                        <a href="{{singular_name}}/{{item.id}}" class = "btn btn-sm btn-info"><i class="fa fa-list"></i></a>
+                        <a href="{{item.id}}/edit" class = "btn btn-sm btn-warning"><i class="fa fa-edit"></i></a>
+                        <span class="name">{{ item.name }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class = "container">
+            <div class = "row text-center">
+                    <ul class="pagination"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class = "modal" id = "newModal" tabindex="-1" role = "dialog">
+        <div class = "modal-dialog" role = "document">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title">Add {{ singular_name }}</h5>
+                </div>
+                <div class = "modal-body">
+                    {{form_start(form)}}
+                    {{form_widget(form)}}
+                    <input class = "btn btn-block btn-success" type="submit" value="Add" />
+                    {{form_end(form)}}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

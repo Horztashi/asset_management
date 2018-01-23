@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class = "container">
+        <div class = "row title">
+            <div class = "col-md-6"><h3>Profile</h3></div>
+            <div class = "col-md-6"></div>
+        </div>
+        <div class = "row">
+            <div class = "col-md-3"><label>Employee Number</label></div>
+            <div class = "col-md-3">{{ app.user.employeenumber }}</div>
+            <div class = "col-md-3"><label>Department</label></div>
+            <div class = "col-md-3">{{ app.user.department ? app.user.department.name : "Not Assigned" }}</div>
+        </div>
+        <div class = "row">
+            <div class = "col-md-3"><label>First Name</label></div>
+            <div class = "col-md-3">{{ app.user.firstname }}</div>
+            <div class = "col-md-3"><label>Last Name</label></div>
+            <div class = "col-md-3">{{ app.user.lastname }}</div>
+        </div>
+        <div class = "row">
+            <div class = "col-md-3"><label>E-Mail</label></div>
+            <div class = "col-md-3">{{ app.user.email }}</div>
+            <div class = "col-md-3"><label>Asset Count</label></div>
+            <div class = "col-md-3">{{ app.user.assets.count }}</div>
+        </div>
+    </div>
+
+
+    <div class = "container">
+        <div class = "row title">
+            <div class = "col-md-6"><h3>Assets</h3></div>
+        </div>
+        <div class = "row title">
+            <div class = "col-md-4">Name</div>
+            <div class = "col-md-4">Location</div>
+            <div class = "col-md-4">Status</div>
+        </div>
+        {% for asset in app.user.assets %}
+            <div class = "row">
+                <div class = "col-md-4"><a href="{{ path('asset_show',{id: asset.id}) }}">{{ asset.name }}</a></div>
+                <div class = "col-md-4">{{ asset.location.name }}</div>
+                <div class = "col-md-4">{{ asset.status.name }}</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

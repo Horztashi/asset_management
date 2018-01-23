@@ -1,0 +1,183 @@
+form{
+	padding: 10px;
+}
+
+form > input{
+  margin-bottom: 10px;
+}
+
+body{
+	background: #F0F0F0;
+	margin-top: 60px;
+}
+
+h4{
+  border-bottom: 1px solid #DADADA;
+}
+
+.container{
+  background: #FFF;
+  margin-bottom: 5px;
+}
+
+.row{
+    padding: 5px;
+}
+
+.fa{
+  margin-right: 5px;
+}
+
+.fa-list, .fa-edit{
+  margin-right: 0px;
+}
+
+.login-form{
+	max-width: 300px;
+}
+
+.login-form > div{
+	padding: 10px;
+}
+
+.information{
+	background: #FFF;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border: solid #B4ADEA 1px;
+	padding: 10px;
+}
+
+
+.list > .row > div{
+	border-bottom: 1px solid #DADADA;
+  padding: 10px;
+}
+
+.list > .row:first-child{
+	border-top: 1px solid #DADADA;
+}
+
+.title{
+	color: #E88805;
+	font-weight: bold;
+}
+
+
+.list, .title{
+	margin-top:5px;	
+}
+
+.title > div > div,
+.title > div > div > div
+ {
+	padding-bottom: 5px;
+	padding-top: 5px;
+
+}
+
+
+/********************* sorting ******************/
+.sort:after {
+  display:inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+.sort.asc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #FFF;
+  content:"";
+  position: relative;
+  top:4px;
+  right:-5px;
+}
+.sort.desc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #FFF;
+  content:"";
+  position: relative;
+  top:-4px;
+  right:-5px;
+}
+
+.sort:focus{
+	outline: none;
+}
+
+/*******************************
+* MODAL AS LEFT/RIGHT SIDEBAR
+* Add "left" or "right" in modal parent div, after class="modal".
+* Get free snippets on bootpen.com
+*******************************/
+  .modal.left .modal-dialog,
+  .modal.right .modal-dialog {
+    position: fixed;
+    margin: auto;
+    width: 320px;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+        -ms-transform: translate3d(0%, 0, 0);
+         -o-transform: translate3d(0%, 0, 0);
+            transform: translate3d(0%, 0, 0);
+  }
+
+  .modal.left .modal-content,
+  .modal.right .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .modal.left .modal-body,
+  .modal.right .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+/*Left*/
+  .modal.left.fade .modal-dialog{
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+       -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+         -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+            transition: opacity 0.3s linear, left 0.3s ease-out;
+  }
+  
+  .modal.left.fade.in .modal-dialog{
+    left: 0;
+  }
+        
+/*Right*/
+  .modal.right.fade .modal-dialog {
+    right: -320px;
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+       -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+         -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+            transition: opacity 0.3s linear, right 0.3s ease-out;
+  }
+  
+  .modal.right.fade.in .modal-dialog {
+    right: 0;
+  }
+
+/* ----- MODAL STYLE ----- */
+  .modal-content {
+    border-radius: 0;
+    border: none;
+  }
+
+  .modal-header {
+    border-bottom-color: #EEEEEE;
+    background-color: #FAFAFA;
+  }

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id = "datalist" class = "datalist">
+        <div class = "container title">
+            <div class = "row">
+                <div class = "col-md-3"><h4>
+                    {% if item_type is defined %}
+                        List of Assets | {{ item_type }} | {{ item_name }}
+                    {% else %}
+                        List of Assets
+                    {% endif %}
+                </h4></div>
+                <div class = "col-md-3 btn-group">
+                    <div class ="btn btn-primary sort" data-sort ="name">Name</div>
+                    <div class ="btn btn-primary sort" data-sort ="employee">Employee</div>
+                    <div class ="btn btn-primary sort" data-sort ="status">Status</div>
+                </div>
+                <div class = "col-md-4 "><input class = "search form-control" placeholder = "Search"></div>
+                <div class = "col-md-2 "><a class = "btn btn-success btn-block" href="{{ path('asset_new') }}">
+                        <i class = "fa fa-plus"></i>Add</a>
+                </div>
+            </div>
+        </div>
+
+        <div class = "container list">
+            {% for asset in assets %}
+                    <div class = "row">
+                        <div class = "col-md-5 name"><a href = "{{path('asset_show',{'id':asset.id})}}">{{ asset.name }}</a></div>
+                        <div class = "col-md-4 employee">{{ asset.user.fullname }}</div>
+                        <div class = "col-md-3 status">{{ asset.status.name }}</div>
+                    </div>
+            {% endfor %}
+        </div>
+
+        <div class = "container">
+            <div class = "row text-center">
+                    <ul class="pagination"></ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

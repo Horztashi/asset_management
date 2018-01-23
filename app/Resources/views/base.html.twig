@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-social.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('cpi-favicon.png') }}" />
+    </head>
+    <body>
+    {% if app.user %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">CPI Assets</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          {% if is_granted("ROLE_ADMIN") %}
+            <ul class="nav navbar-nav">
+                <li><a href="{{ path('asset_index') }}"><i class ="fa fa-cube"></i>Assets</a></li>
+                <li><a href="{{ path('model_index') }}"><i class ="fa fa-font-awesome"></i>Model</a></li>
+                <li><a href="{{ path('category_index') }}"><i class ="fa fa-list-alt"></i>Category</a></li>
+                <li><a href="{{ path('department_index') }}"><i class ="fa fa-group"></i>Department</a></li>
+                <li><a href="{{ path('status_index') }}"><i class ="fa fa-check-square"></i>Status</a></li>
+                <li><a href="{{ path('vendor_index') }}"><i class ="fa fa-institution"></i>Vendor</a></li>
+                <li><a href="{{ path('location_index') }}"><i class ="fa fa-globe"></i>Location</a></li>
+            </ul>
+          {% endif %}
+
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class = "fa fa-user-circle"></i>{{ app.user.fullname }}&nbsp;&nbsp;<i class = "fa fa-caret-down"></i></a>
+              <ul class="dropdown-menu">
+                <li><a href="/profile">Profile<span class = "pull-right"><i class = "fa fa-user"></i></span></a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="/logout">Log out<span class = "pull-right"><i class = "fa fa-caret-square-o-right"></i></span></a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    {% endif %}
+
+    {% block body %}{% endblock %}
+    <script src="{{ asset('js/jQuery.js') }}"></script>
+    <script src="{{ asset('js/popper.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="{{asset('js/datatables.js')}}"></script>
+    <script src="{{asset('js/list.js')}}"></script>
+    <script src="https://use.fontawesome.com/d5e5fe2fb9.js"></script>
+    <script src="{{asset('js/main.js')}}"></script>
+    {% block javascripts %}{% endblock %}
+    </body>
+</html>
