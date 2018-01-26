@@ -6,7 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+    use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,10 +19,9 @@ class AssetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::class)
-                ->add('user', EntityType::class, array('class'=>'AppBundle:User','choice_label'=>'fullname'))
+                ->add('iscritical', CheckboxType::class, array('label'=>'Is this a critical asset?','required' => false))
                 ->add('location', EntityType::class, array('class'=>'AppBundle:Location','choice_label'=>'name'))
                 ->add('category', EntityType::class, array('class'=>'AppBundle:Category','choice_label'=>'name'))
-                ->add('status', EntityType::class, array('class'=>'AppBundle:Status','choice_label'=>'name'))
                 ->add('ponumber', TextType::class)
                 ->add('vendor', EntityType::class, array('class'=>'AppBundle:Vendor','choice_label'=>'name'))
                 ->add('model', EntityType::class, array('class'=>'AppBundle:Model','choice_label'=>'name'))

@@ -52,7 +52,7 @@ class DepartmentController extends Controller
      */
     public function showAction(Department $department)
     {
-        return $this->render('asset/index.html.twig', array(
+        return $this->render('department/index.html.twig', array(
             'assets' => $department->getAssets(),
             'item_name' => $department->getName(),
             'item_type' => "Department"

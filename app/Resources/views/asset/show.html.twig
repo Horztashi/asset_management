@@ -4,13 +4,16 @@
 
     <div class = "container information" style = "">
         <div class = "row">
-            <div class = "col-sm-6 text-center"><h4>{{asset.name}}</h4><i></i></div>
-            <div class = "col-md-6">
-                <div class = "btn-group pull-right">
+            <div class = "col-sm-12 text-center"><h4>{{asset.name}}</h4><i></i></div>
+        </div>
+        <div class = "row">
+            <div class = "col-md-12 text-center">
+                <div class = "btn-group">
                     {% if is_granted('ROLE_ADMIN') %}
                     <a class = "btn btn-primary" href="{{ path('asset_edit', { 'id': asset.id }) }}">Edit Asset</a>
                     <a class = "btn btn-primary"  data-toggle = "modal" data-target = "#assignModal">Assign Asset</a>
                     {% endif %}
+                    <a class = "btn btn-primary"  data-toggle = "modal" data-target = "#statusModal">Update Status</a>
                     <a class = "btn btn-primary"  data-toggle = "modal" data-target = "#logModal">Asset History</a>
                 </div>
             </div>
@@ -71,13 +74,29 @@
                 </div>
                 <div class = "modal-body">
                     {{form_start(assign_form)}}
-                    {{form_widget(assign_form.user)}}
+                    {{form_widget(assign_form)}}
                     <input class = "btn btn-block btn-success" type="submit" value="Assign" />
                     {{form_end(assign_form)}}
                 </div>
             </div>
         </div>
     </div>
+
+    <div class = "modal" id = "statusModal" tabindex="-1" role = "dialog">
+        <div class = "modal-dialog" role = "document">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title">Assign to new Custodian</h5>
+                </div>
+                <div class = "modal-body">
+                    {{form_start(status_form)}}
+                    {{form_widget(status_form)}}
+                    <input class = "btn btn-block btn-success" type="submit" value="Assign" />
+                    {{form_end(status_form)}}
+                </div>
+            </div>
+        </div>
+    </div>    
 
     <div class = "modal right fade" id = "logModal" tabindex="-1" role = "dialog">
         <div class = "modal-dialog" role = "document">

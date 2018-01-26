@@ -49,24 +49,18 @@ class AssetController extends Controller
                         
             $em = $this->getDoctrine()->getManager();
             
-            /**
-             * Logs the creation of the Asset
-            $log = new Log();
-            $log->setDatetime(date('yyyy-mm-dd'))
-                    ->setAssetId(5)
-                    ->setDescription("Asset was created")
-                    ->setType("Add");
-
+        /* Logs the creation of the Asset */
+            $log = new Log($asset, "Asset was created.");
             $em->persist($log);
-             */
             $em->persist($asset);
 
             $em->flush();
             return $this->redirectToRoute('asset_show', array('id' => $asset->getId()));
         }
 
-        return $this->render('asset/new.html.twig', array(
+        return $this->render('generic_form_view.html.twig', array(
             'asset' => $asset,
+            'title' => 'New Asset', 
             'form' => $form->createView(),
         ));
     }
@@ -80,23 +74,31 @@ class AssetController extends Controller
     public function showAction(Asset $asset, Request $request)
     {
         $assign_form = $this->createForm('AppBundle\Form\AssetAssignType', $asset);
+        $status_form = $this->createForm('AppBundle\Form\AssetStatusType', $asset);
+
         $assign_form->handleRequest($request);
+        $status_form->handleRequest($request);
 
         if ($assign_form->isSubmitted() && $assign_form->isValid()) {
-
-            if(!$this->isGranted('ROLE_ADMIN'))
-                return $this->render('ENK');
-
-            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset has been assigned to ' . $asset->getUser()->getFullname() . "(" . $asset->getUser()->getEmail() . ")"));
+            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset has been assigned to ' . $asset->getUser()->getFullname() . '(' . $asset->getUser()->getEmail() . ')'));
             
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('asset_show', array('id' => $asset->getId()));
-        }        
+        }
+
+        if ($status_form->isSubmitted() && $status_form->isValid()) {
+            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset status was changed to'. $asset->getStatus()->getName() . " Reason: " . $status_form->get('comment')->getData()));
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('asset_show', array('id' => $asset->getId()));
+        }             
 
         return $this->render('asset/show.html.twig', array(
             'asset' => $asset,
             'assign_form' => $assign_form->createView(),
+            'status_form' => $status_form->createView(),
         ));
     }
 

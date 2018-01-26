@@ -35,6 +35,10 @@ class Model
      */
     private $brand;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Asset", mappedBy="model")
+     */
+    private $assets;
 
     /**
      * Get id
@@ -92,5 +96,46 @@ class Model
     public function getBrand()
     {
         return $this->brand;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->assets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add asset
+     *
+     * @param \AppBundle\Entity\Asset $asset
+     *
+     * @return Model
+     */
+    public function addAsset(\AppBundle\Entity\Asset $asset)
+    {
+        $this->assets[] = $asset;
+
+        return $this;
+    }
+
+    /**
+     * Remove asset
+     *
+     * @param \AppBundle\Entity\Asset $asset
+     */
+    public function removeAsset(\AppBundle\Entity\Asset $asset)
+    {
+        $this->assets->removeElement($asset);
+    }
+
+    /**
+     * Get assets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAssets()
+    {
+        return $this->assets;
     }
 }

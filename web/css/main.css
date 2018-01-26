@@ -11,14 +11,11 @@ body{
 	margin-top: 60px;
 }
 
-h4{
-  border-bottom: 1px solid #DADADA;
-}
-
 .container{
   background: #FFF;
-  margin-bottom: 5px;
-}
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;}
 
 .row{
     padding: 5px;
@@ -40,14 +37,6 @@ h4{
 	padding: 10px;
 }
 
-.information{
-	background: #FFF;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	border: solid #B4ADEA 1px;
-	padding: 10px;
-}
-
 
 .list > .row > div{
 	border-bottom: 1px solid #DADADA;
@@ -57,25 +46,6 @@ h4{
 .list > .row:first-child{
 	border-top: 1px solid #DADADA;
 }
-
-.title{
-	color: #E88805;
-	font-weight: bold;
-}
-
-
-.list, .title{
-	margin-top:5px;	
-}
-
-.title > div > div,
-.title > div > div > div
- {
-	padding-bottom: 5px;
-	padding-top: 5px;
-
-}
-
 
 /********************* sorting ******************/
 .sort:after {

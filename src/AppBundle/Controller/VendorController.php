@@ -33,7 +33,7 @@ class VendorController extends Controller
             $em->persist($vendor);
             $em->flush();
 
-            return $this->redirectToRoute('vendor_show', array('id' => $vendor->getId()));
+            return $this->redirectToRoute('vendor_index');
         }
 
         return $this->render('generic_index.html.twig', array(
@@ -52,11 +52,10 @@ class VendorController extends Controller
      */
     public function showAction(Vendor $vendor)
     {
-        $deleteForm = $this->createDeleteForm($vendor);
-
-        return $this->render('vendor/show.html.twig', array(
-            'vendor' => $vendor,
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('asset/index.html.twig', array(
+            'assets' => $vendor->getAssets(),
+            'item_name' => $vendor->getName(),
+            'item_type' => "Vendor"
         ));
     }
 
@@ -79,7 +78,7 @@ class VendorController extends Controller
 
         return $this->render('generic_form_view.html.twig', array(
             'title' => 'Modify Vendor',
-            'vendor' => $vendor,
+            'category' => $vendor,
             'form' => $editForm->createView(),
         ));
     }

@@ -97,6 +97,14 @@ class Asset
     private $servicedate;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="iscritical", type="boolean")
+     */
+    private $isCritical;
+
+
+    /**
      * @ORM\ManyToOne(targetEntity="Model", inversedBy="assets")
      * @ORM\JoinColumn(name="model_id", referencedColumnName="id")
      */
@@ -576,5 +584,29 @@ class Asset
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set isCritical
+     *
+     * @param boolean $isCritical
+     *
+     * @return Asset
+     */
+    public function setIsCritical($isCritical)
+    {
+        $this->isCritical = $isCritical;
+
+        return $this;
+    }
+
+    /**
+     * Get isCritical
+     *
+     * @return boolean
+     */
+    public function getIsCritical()
+    {
+        return $this->isCritical;
     }
 }

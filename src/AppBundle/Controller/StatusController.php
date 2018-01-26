@@ -37,9 +37,11 @@ class StatusController extends Controller
             return $this->redirectToRoute('status_index');
         }
 
-        return $this->render('status/index.html.twig', array(
-            'statuses' => $statuses,
-            'form' => $form->createView(),
+        return $this->render('generic_index.html.twig', array(
+            'items' => $statuses,
+            'singular_name' => 'status',
+            'plural_name' => 'statuses',
+            'form'   => $form->createView(),
         ));
     }
 
@@ -51,15 +53,10 @@ class StatusController extends Controller
      */
     public function showAction(Status $status)
     {
-        $deleteForm = $this->createDeleteForm($status);
-
-        $repository = $this->getDoctrine()->getRepository(Status::class);
-        $statuses   = $repository->findAll();
-
-        return $this->render('status/show.html.twig', array(
-            'status' => $status,
-            'statuses' => $statuses,
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('asset/index.html.twig', array(
+            'assets' => $status->getAssets(),
+            'item_name' => $status->getName(),
+            'item_type' => "Status"
         ));
     }
 
@@ -71,56 +68,19 @@ class StatusController extends Controller
      */
     public function editAction(Request $request, Status $status)
     {
-        $deleteForm = $this->createDeleteForm($status);
         $editForm = $this->createForm('AppBundle\Form\StatusType', $status);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('status_edit', array('id' => $status->getId()));
+            return $this->redirectToRoute('status_index');
         }
 
-        return $this->render('status/edit.html.twig', array(
-            'status' => $status,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('generic_form_view.html.twig', array(
+            'title' => 'Modify Status',
+            'category' => $status,
+            'form' => $editForm->createView(),
         ));
-    }
-
-    /**
-     * Deletes a status entity.
-     *
-     * @Route("/{id}", name="status_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, Status $status)
-    {
-        $form = $this->createDeleteForm($status);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($status);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('status_index');
-    }
-
-    /**
-     * Creates a form to delete a status entity.
-     *
-     * @param Status $status The status entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(Status $status)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('status_delete', array('id' => $status->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
     }
 }

@@ -3,18 +3,20 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AssetAssignType extends AbstractType
+class AssetStatusType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('user', EntityType::class, array('class'=>'AppBundle:User','choice_label'=>'fullname','label' =>'Custodian'));
+        $builder->add('status', EntityType::class, array('class'=>'AppBundle:Status','choice_label'=>'name'))
+                ->add('comment', TextType::class, array('mapped'=>false));
     }
     
     /**
@@ -32,7 +34,7 @@ class AssetAssignType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_assetassign';
+        return 'appbundle_assetstatus';
     }
 
 
