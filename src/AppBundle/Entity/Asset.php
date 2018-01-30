@@ -24,9 +24,16 @@ class Asset
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=50)
+     * @ORM\Column(name="code", type="string", length=20)
      */
-    private $name;
+    private $code;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=50)
+     */
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="Location", inversedBy="assets")
