@@ -20,7 +20,9 @@ class AssetType extends AbstractType
     {
         $builder->add('name', TextType::class)
                 ->add('iscritical', CheckboxType::class, array('label'=>'Is this a critical asset?','required' => false))
+                ->add('user', EntityType::class, array('class'=>'AppBundle:User','choice_label'=>'fullname'))
                 ->add('location', EntityType::class, array('class'=>'AppBundle:Location','choice_label'=>'name'))
+                ->add('status', EntityType::class, array('class'=>'AppBundle:Status','choice_label'=>'name'))
                 ->add('category', EntityType::class, array('class'=>'AppBundle:Category','choice_label'=>'name'))
                 ->add('ponumber', TextType::class)
                 ->add('vendor', EntityType::class, array('class'=>'AppBundle:Vendor','choice_label'=>'name'))
