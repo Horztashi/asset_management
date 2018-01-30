@@ -208,31 +208,7 @@ class Asset
     {
         return $this->category;
     }
-
-    /**
-     * Set employee
-     *
-     * @param \AppBundle\Entity\Employee $employee
-     *
-     * @return Asset
-     */
-    public function setEmployee(\AppBundle\Entity\Employee $employee = null)
-    {
-        $this->employee = $employee;
-
-        return $this;
-    }
-
-    /**
-     * Get employee
-     *
-     * @return \AppBundle\Entity\Employee
-     */
-    public function getEmployee()
-    {
-        return $this->employee;
-    }
-
+    
     /**
      * Set status
      *

@@ -55,17 +55,17 @@ security:
 
 
     access_control:
-        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_FULLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/admin, role: ROLE_ADMIN }
         - { path: ^/brand, role: ROLE_ADMIN}
         - { path: ^/category, role: ROLE_ADMIN}
         - { path: ^/department, role: ROLE_ADMIN}
         - { path: ^/employee, role: ROLE_ADMIN}
         - { path: ^/status, role: ROLE_ADMIN}
         - { path: ^/vendor, role: ROLE_ADMIN}
-        - { path: ^/edit, role: ROLE_ADMIN}
-        - { path: ^/new, role: ROLE_ADMIN}
+        - { path: ^/asset/new, role: ROLE_ADMIN}
+        - { path: ^/asset/.*/edit, role: ROLE_ADMIN}
         - { path: ^/asset, role: IS_AUTHENTICATED_FULLY}
         - { path: ^/profile, role: IS_AUTHENTICATED_FULLY}
+        - { path: ^/register, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

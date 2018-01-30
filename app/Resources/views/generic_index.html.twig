@@ -7,7 +7,7 @@
                 <div class = "col-md-6"><h4>List of {{ plural_name }}</h4></div>
                 <div class = "col-md-4"><input class = "search form-control" placeholder = "Search"></div>
                 <div class = "col-md-2">
-                    <a class = "btn btn-success btn-block"  data-toggle = "modal" data-target = "#newModal">+Add</a>
+                    <a class = "btn btn-success btn-block"  data-toggle = "modal" data-target = "#newModal"><i class = "fa fa-plus"></i>Add</a>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                 <div class = "modal-body">
                     {{form_start(form)}}
                     {{form_widget(form)}}
-                    <input class = "btn btn-block btn-success" type="submit" value="Add" />
+                    <button class = "btn btn-block btn-success" type="submit"><i class = "fa fa-plus"></i>Add</button>
                     {{form_end(form)}}
                 </div>
             </div>

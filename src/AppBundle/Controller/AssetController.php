@@ -7,7 +7,7 @@ use AppBundle\Entity\Log;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Asset controller.
  *
@@ -25,8 +25,11 @@ class AssetController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        if($this->isGranted('ROLE_ADMIN'))
         $assets = $em->getRepository('AppBundle:Asset')->findAll();
-
+        else
+        $assets = $em->getRepository('AppBundle:Asset')->findByUser($this->getUser());
+            
         return $this->render('asset/index.html.twig', array(
             'assets' => $assets,
         ));
@@ -45,12 +48,10 @@ class AssetController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-                        
             $em = $this->getDoctrine()->getManager();
             
         /* Logs the creation of the Asset */
-            $log = new Log($asset, "Asset was created.");
+            $log = new Log($asset, "Asset was created.", $this->getUser());
             $em->persist($log);
             $em->persist($asset);
 
@@ -73,6 +74,11 @@ class AssetController extends Controller
      */
     public function showAction(Asset $asset, Request $request)
     {
+
+        if(!$this->isGranted('ROLE_ADMIN') 
+            AND $asset->getUser()!= $this->getUser())
+            throw new AccessDeniedException();
+
         $assign_form = $this->createForm('AppBundle\Form\AssetAssignType', $asset);
         $status_form = $this->createForm('AppBundle\Form\AssetStatusType', $asset);
 
@@ -80,7 +86,7 @@ class AssetController extends Controller
         $status_form->handleRequest($request);
 
         if ($assign_form->isSubmitted() && $assign_form->isValid()) {
-            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset has been assigned to ' . $asset->getUser()->getFullname() . '(' . $asset->getUser()->getEmail() . ')'));
+            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset has been assigned to ' . $asset->getUser()->getFullname() . '(' . $asset->getUser()->getEmail() . ')',$this->getUser()));
             
             $this->getDoctrine()->getManager()->flush();
 
@@ -88,7 +94,7 @@ class AssetController extends Controller
         }
 
         if ($status_form->isSubmitted() && $status_form->isValid()) {
-            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset status was changed to'. $asset->getStatus()->getName() . " Reason: " . $status_form->get('comment')->getData()));
+            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset status was changed to '. $asset->getStatus()->getName() . " Reason: " . $status_form->get('comment')->getData(),$this->getUser()));
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -114,14 +120,17 @@ class AssetController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset status was changed to '. $asset->getStatus()->getName() . " Reason: " . $status_form->get('comment')->getData(),$this->getUser()));
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('asset_edit', array('id' => $asset->getId()));
         }
 
-        return $this->render('asset/edit.html.twig', array(
+        return $this->render('generic_form_view.html.twig', array(
             'asset' => $asset,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
+            'title' => 'Edit asset'
         ));
     }
 }
