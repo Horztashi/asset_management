@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-md-6"><div id="defectivechart_div"></div></div>
+            <div class = "col-md-6"><div id="criticalchart_div"></div></div>
+        </div>
+        <div class = "row">
+            <div class = "col-md-6"><div id="categorychart_div"></div></div>
+            <div class = "col-md-6"><div id="statuschart_div"></div></div>
+        </div>
+        <div class = "row">
+            <div class = "col-md-6"><div id="categorychart_div"></div></div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawDefectiveChart);
+      google.charts.setOnLoadCallback(drawCriticalChart);
+      google.charts.setOnLoadCallback(drawCategoryChart);
+      google.charts.setOnLoadCallback(drawStatusChart);
+
+     // Handles the Defective Chart
+    function drawDefectiveChart() {
+        var defectiveData = new google.visualization.DataTable();
+        defectiveData.addColumn('string', 'Assets');
+        defectiveData.addColumn('number', 'count');
+        defectiveData.addRows([
+          ['Not Defective', {{notDefectiveAssets}}],
+          ['Defective', {{defectiveAssets}}],
+        ]);
+        var options = {'title':'Defective Assets vs Non-Defective Percentage'};
+        var defectiveChart = new google.visualization.PieChart(document.getElementById('defectivechart_div'));
+        defectiveChart.draw(defectiveData, options);
+    }
+
+    // Handles the Critical Chart
+    function drawCriticalChart() {
+        var defectiveData = new google.visualization.DataTable();
+        defectiveData.addColumn('string', 'Assets');
+        defectiveData.addColumn('number', 'count');
+        defectiveData.addRows([
+          ['Critical Assets', {{criticalAssets}}],
+          ['Non Critical Assets', {{noncriticalAssets}}],
+        ]);
+        var options = {'title':'Crticial Assets vs Non-Critical Assets Percentage'};
+        var defectiveChart = new google.visualization.PieChart(document.getElementById('criticalchart_div'));
+        defectiveChart.draw(defectiveData, options);
+    }
+
+    // Handles the Category Chart
+    function drawCategoryChart() {
+        var categoryData = new google.visualization.DataTable();
+        categoryData.addColumn('string', 'Category');
+        categoryData.addColumn('number', 'count');
+        categoryData.addRows([
+            {% for category in categoriesArray %}
+                ['{{category.name}}', {{category.count}}],
+            {% endfor %}
+        ])
+
+        var options = {'title':'Category Percentage'};
+        var categoryChart = new google.visualization.PieChart(document.getElementById('categorychart_div'));
+        categoryChart.draw(categoryData, options);
+    }
+
+    // Handles the Status Chart
+    function drawStatusChart() {
+        var statusData = new google.visualization.DataTable();
+        statusData.addColumn('string', 'Category');
+        statusData.addColumn('number', 'count');
+        statusData.addRows([
+            {% for status in statusesArray %}
+                ['{{status.name}}', {{status.count}}],
+            {% endfor %}
+        ])
+
+        var options = {'title':'Status Percentage'};
+        var statusChart = new google.visualization.PieChart(document.getElementById('statuschart_div'));
+        statusChart.draw(statusData, options);
+    }
+
+
+    </script>
+{% endblock %}

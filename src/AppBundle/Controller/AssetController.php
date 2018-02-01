@@ -52,6 +52,8 @@ class AssetController extends Controller
             
         /* Logs the creation of the Asset */
             $log = new Log($asset, "Asset was created.", $this->getUser());
+            $asset->setStatus($em->getRepository('AppBundle:Status')->findById(3));
+
             $em->persist($log);
             $em->persist($asset);
 

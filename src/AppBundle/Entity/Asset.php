@@ -110,6 +110,12 @@ class Asset
      */
     private $isCritical;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isPersonal", type="boolean")
+     */
+    private $isPersonal;
 
     /**
      * @ORM\ManyToOne(targetEntity="Model", inversedBy="assets")
@@ -591,5 +597,77 @@ class Asset
     public function getIsCritical()
     {
         return $this->isCritical;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Asset
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Asset
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set isPersonal
+     *
+     * @param boolean $isPersonal
+     *
+     * @return Asset
+     */
+    public function setIsPersonal($isPersonal)
+    {
+        $this->isPersonal = $isPersonal;
+
+        return $this;
+    }
+
+    /**
+     * Get isPersonal
+     *
+     * @return boolean
+     */
+    public function getIsPersonal()
+    {
+        return $this->isPersonal;
     }
 }

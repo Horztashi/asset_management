@@ -1,14 +1,21 @@
-Additionals:
-	+ Asset.TAG
+	+ Asset.Code
 	- Asset.Name
 	+ Asset.Description
-	+ Maintenance Schedule
-	+ Asset Issued
 	+ CPI Logo and System Name
 	+ Personal / General Asset
-
 	+ Remove Purchase Information in User Side
 	+ Remove Asset History in User Side
+	Dashboard:
+	+ Defective Assets
+	+ Total Assets (Critical, Non-Critical)
+	+ Assigned and Unassigned Assets
+	+ Assets per category (Pie Chart)
+	+ Asset Status
+
+Additionals:
+	+ Maintenance Schedule
+	+ Asset Issued
+
 
 	+ Maitenance Schedule
 	  + Conductor
@@ -35,12 +42,7 @@ Additionals:
 	- Date_hired
 	+ Position
 
-	Dashboard:
-	+ Defective Assets
-	+ Total Assets (Critical, Non-Critical)
-	+ Assigned and Unassigned Assets
-	+ Assets per category (Pie Chart)
-	+ Asset Status
+
 
 	Process Champion:
 	+ Asset Availability (Defective Assets / Total Assets) (Bar Graph)

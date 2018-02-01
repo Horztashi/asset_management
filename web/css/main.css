@@ -15,7 +15,7 @@ body{
   background: #FFF;
   margin-top: 10px;
   margin-bottom: 10px;
-  padding: 10px;}
+}
 
 .row{
     padding: 5px;
@@ -45,6 +45,11 @@ body{
 
 .list > .row:first-child{
 	border-top: 1px solid #DADADA;
+}
+
+.btn-label{
+  pointer-events: none;
+  font-weight: bold;
 }
 
 /********************* sorting ******************/

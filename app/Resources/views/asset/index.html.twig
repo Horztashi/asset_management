@@ -4,21 +4,26 @@
     <div id = "datalist" class = "datalist">
         <div class = "container title">
             <div class = "row">
-                <div class = "col-md-5"><h4>
+                <div class = "col-md-4"><h4>
                     {% if item_type is defined %}
                         List of Assets | {{ item_type }} | {{ item_name }}
                     {% else %}
                         List of Assets
                     {% endif %}
                 </h4></div>
-                <div class = "col-md-3 btn-group">
-                    <div class ="btn btn-primary sort" data-sort ="name">Name</div>
-                    <div class ="btn btn-primary sort" data-sort ="employee">Employee</div>
-                    <div class ="btn btn-primary sort" data-sort ="status">Status</div>
-                </div>
-                <div class = "col-md-3 "><input class = "search form-control" placeholder = "Search"></div>
-                <div class = "col-md-1 "><a class = "btn btn-success btn-block" href="{{ path('asset_new') }}">
+                <div class = "col-md-5 "><input class = "search form-control" placeholder = "Search"></div>
+                <div class = "col-md-3 "><a class = "btn btn-success btn-block" href="{{ path('asset_new') }}">
                         <i class = "fa fa-plus"></i>Add</a>
+                </div>
+            </div>
+            <div class = "row pull-right">
+                <div class = "col-md-12 pull-right">
+                    <div class = "btn-group">
+                        <div class ="btn btn-default btn-label" data-sort ="name">Sort By</div>
+                        <div class ="btn btn-primary sort" data-sort ="name">Code</div>
+                        <div class ="btn btn-primary sort" data-sort ="employee">Employee</div>
+                        <div class ="btn btn-primary sort" data-sort ="status">Status</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -27,8 +32,14 @@
             {% if assets is not empty %}
                 {% for asset in assets %}
                         <div class = "row">
-                            <div class = "col-md-5 name"><a href = "{{path('asset_show',{'id':asset.id})}}">{{ asset.name }}</a></div>
-                            <div class = "col-md-4 employee">{{ asset.user.fullname }}</div>
+                            <div class = "col-md-5 name"><a href = "{{path('asset_show',{'id':asset.id})}}">{{ asset.code }}</a></div>
+                            <div class = "col-md-4 employee">
+                                {% if asset.user %}
+                                    {{asset.user.fullname}}
+                                {% else %}
+                                    <span class = "text-muted"> NOT ASSIGNED</span>
+                                {% endif %}
+                        </div>
                             <div class = "col-md-3 status">{{ asset.status.name }}</div>
                         </div>
                 {% endfor %}
