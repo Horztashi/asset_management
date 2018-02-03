@@ -17,16 +17,20 @@ body{
   margin-bottom: 10px;
 }
 
+.transparent{    
+    background-color: rgba(0,0,0,0.0) !important;
+}
+
+.border{
+  border:1px solid #DADADA;
+}
+
 .row{
     padding: 5px;
 }
 
-.fa{
+.nav > li > a > .svg-inline--fa{
   margin-right: 5px;
-}
-
-.fa-list, .fa-edit{
-  margin-right: 0px;
 }
 
 .login-form{
@@ -50,6 +54,12 @@ body{
 .btn-label{
   pointer-events: none;
   font-weight: bold;
+}
+
+.btn-fixed{
+  position: fixed;
+  margin-left: 15px;
+  z-index: 9999;
 }
 
 /********************* sorting ******************/

@@ -28,23 +28,23 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           {% if is_granted("ROLE_ADMIN") %}
             <ul class="nav navbar-nav">
-                <li><a href="{{ path('asset_index') }}"><i class ="fa fa-cube"></i>Assets</a></li>
-                <li><a href="{{ path('brand_index') }}"><i class ="fa fa-font-awesome"></i>Brand</a></li>
-                <li><a href="{{ path('category_index') }}"><i class ="fa fa-list-alt"></i>Category</a></li>
-                <li><a href="{{ path('department_index') }}"><i class ="fa fa-group"></i>Department</a></li>
-                <li><a href="{{ path('status_index') }}"><i class ="fa fa-check-square"></i>Status</a></li>
-                <li><a href="{{ path('vendor_index') }}"><i class ="fa fa-institution"></i>Vendor</a></li>
-                <li><a href="{{ path('location_index') }}"><i class ="fa fa-globe"></i>Location</a></li>
+                <li><a href="{{ path('asset_index') }}"><i class ="fas fa-cube"></i>Assets</a></li>
+                <li><a href="{{ path('brand_index') }}"><i class ="fab fa-font-awesome-flag"></i>Brand</a></li>
+                <li><a href="{{ path('category_index') }}"><i class ="fas fa-list-alt"></i>Category</a></li>
+                <li><a href="{{ path('department_index') }}"><i class ="fas fa-users"></i>Department</a></li>
+                <li><a href="{{ path('status_index') }}"><i class ="fas fa-check-square"></i>Status</a></li>
+                <li><a href="{{ path('vendor_index') }}"><i class ="fas fa-building"></i>Vendor</a></li>
+                <li><a href="{{ path('location_index') }}"><i class ="fas fa-globe"></i>Location</a></li>
             </ul>
           {% endif %}
 
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class = "fa fa-user-circle"></i>{{ app.user.fullname }}&nbsp;&nbsp;<i class = "fa fa-caret-down"></i></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class = "fas fa-user-circle"></i>{{ app.user.fullname }}&nbsp;&nbsp;<i class = "fa fa-caret-down"></i></a>
               <ul class="dropdown-menu">
-                <li><a href="/profile">Profile<span class = "pull-right"><i class = "fa fa-user"></i></span></a></li>
+                <li><a href="/profile">Profile<span class = "pull-right"><i class = "fas fa-user"></i></span></a></li>
                 <li role="separator" class="divider"></li>
-                <li><a href="/logout">Log out<span class = "pull-right"><i class = "fa fa-caret-square-o-right"></i></span></a></li>
+                <li><a href="/logout">Log out<span class = "pull-right"><i class = "fas fa-caret-square-o-right"></i></span></a></li>
               </ul>
             </li>
           </ul>
@@ -59,8 +59,7 @@
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{asset('js/datatables.js')}}"></script>
     <script src="{{asset('js/list.js')}}"></script>
-    <script src="https://use.fontawesome.com/d5e5fe2fb9.js"></script>
-    <script src="{{asset('js/main.js')}}"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>    <script src="{{asset('js/main.js')}}"></script>
     {% block javascripts %}{% endblock %}
     </body>
 </html>

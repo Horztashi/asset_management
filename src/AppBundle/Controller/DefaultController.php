@@ -52,11 +52,15 @@ class DefaultController extends Controller
             $statusesArray[] = array('name' => $statusName, 'count' => $assetCount);
         }
 
+
+
         return $this->render('index.html.twig',array(
                             'notDefectiveAssets' => $notDefectiveAssets,
                             'defectiveAssets' => $defectiveAssets,
                             'criticalAssets' => $criticalAssets,
                             'noncriticalAssets' => $noncriticalAssets,
+                            'unassignedAssets' => $unassignedAssets,
+                            'assignedAssets' => $assignedAssets,
                             'categoriesArray' => $categoriesArray,
                             'statusesArray' => $statusesArray,
                             ));

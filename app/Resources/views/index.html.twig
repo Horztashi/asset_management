@@ -1,19 +1,63 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class = "container">
+
+    <div class = "btn btn-success btn-fixed" data-toggle = "modal" data-target = "#maintenanceModal"><i class="fas fa-wrench"></i></div>
+
+    <div class = "container transparent">
         <div class = "row">
-            <div class = "col-md-6"><div id="defectivechart_div"></div></div>
-            <div class = "col-md-6"><div id="criticalchart_div"></div></div>
-        </div>
-        <div class = "row">
-            <div class = "col-md-6"><div id="categorychart_div"></div></div>
-            <div class = "col-md-6"><div id="statuschart_div"></div></div>
-        </div>
-        <div class = "row">
-            <div class = "col-md-6"><div id="categorychart_div"></div></div>
+            <div class = "col-md-4">
+                <ul class = "list-group">
+                    <li class = "list-group-item">
+                        <h4 class="list-group-item-heading">Reminders</h4>
+                    </li>
+                    <li class = "list-group-item"><span class="badge">53</span>Un-assigned Assets</li>
+                    <li class = "list-group-item"><span class="badge">53</span>Defective Assets</li>
+                    <li class = "list-group-item"><span class="badge">53</span>For disposal</li>
+                </ul>
+            </div>
+            <div class = "col-md-4">
+                <ul class = "list-group">
+                    <li class = "list-group-item">
+                        <h4 class="list-group-item-heading">Movements for this month</h4>
+                    </li>
+                    <li class = "list-group-item"><span class="badge">53</span>New Assets</li>
+                    <li class = "list-group-item"><span class="badge">53</span>Changed Custodian</li>
+                    <li class = "list-group-item"><span class="badge">53</span>Changed Status</li>
+                </ul>
+            </div>
         </div>
     </div>
+    <div class = "container transparent">
+        <div class = "row">
+            <div class = "col-md-6"><div class ="border" id="defectivechart_div"></div></div>
+            <div class = "col-md-6"><div class ="border" id="criticalchart_div"></div></div>
+        </div>
+        <div class = "row">
+            <div class = "col-md-6"><div class ="border" id="categorychart_div"></div></div>
+            <div class = "col-md-6"><div class ="border" id="statuschart_div"></div></div>
+        </div>
+        <div class = "row">
+            <div class = "col-md-6"><div class ="border" id="assignchart_div"></div></div>
+        </div>
+    </div>
+
+    <div class = "modal right fade" id = "maintenanceModal" tabindex="-1" role = "dialog">
+        <div class = "modal-dialog" role = "document">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title">Maintenance Schedule</h5>
+                </div>
+                <div class = "modal-body">
+                    <ul class = "list-group">
+                        <li class = "list-group-item">CA-1232 <span class = "pull-right">01/02/2018</span></li>
+                        <li class = "list-group-item">CA-1232 <span class = "pull-right">01/02/2018</span></li>
+                        <li class = "list-group-item">CA-1232 <span class = "pull-right">01/02/2018</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div> 
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -23,6 +67,7 @@
       google.charts.setOnLoadCallback(drawCriticalChart);
       google.charts.setOnLoadCallback(drawCategoryChart);
       google.charts.setOnLoadCallback(drawStatusChart);
+      google.charts.setOnLoadCallback(drawAssignChart);
 
      // Handles the Defective Chart
     function drawDefectiveChart() {
@@ -61,7 +106,7 @@
             {% for category in categoriesArray %}
                 ['{{category.name}}', {{category.count}}],
             {% endfor %}
-        ])
+        ]);
 
         var options = {'title':'Category Percentage'};
         var categoryChart = new google.visualization.PieChart(document.getElementById('categorychart_div'));
@@ -71,19 +116,33 @@
     // Handles the Status Chart
     function drawStatusChart() {
         var statusData = new google.visualization.DataTable();
-        statusData.addColumn('string', 'Category');
+        statusData.addColumn('string', 'Status');
         statusData.addColumn('number', 'count');
         statusData.addRows([
             {% for status in statusesArray %}
                 ['{{status.name}}', {{status.count}}],
             {% endfor %}
-        ])
+        ]);
 
         var options = {'title':'Status Percentage'};
         var statusChart = new google.visualization.PieChart(document.getElementById('statuschart_div'));
         statusChart.draw(statusData, options);
     }
 
+    // Handles the Assign Chart
+    function drawAssignChart() {
+        var assignData = new google.visualization.DataTable();
+        assignData.addColumn('string', 'Status');
+        assignData.addColumn('number', 'count');
+        assignData.addRows([
+          ['Assigned', {{assignedAssets}}],
+          ['Unassigned', {{unassignedAssets}}],
+        ]);
+
+        var options = {'title':'Assign Percentage'};
+        var assignChart = new google.visualization.PieChart(document.getElementById('assignchart_div'));
+        assignChart.draw(assignData, options);
+    }
 
     </script>
 {% endblock %}
