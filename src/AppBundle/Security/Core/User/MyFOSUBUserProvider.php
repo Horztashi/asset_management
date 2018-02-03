@@ -57,7 +57,7 @@ class MyFOSUBUserProvider extends BaseFOSUBProvider
         // Update Personal Information
         $user->setFirstName($response->getFirstName());
         $user->setLastName($response->getLastName());
-
+        $user->setGoogleProfilePicture($response->getProfilePicture());
 
         // ... save user to database
         $this->userManager->updateUser($user);

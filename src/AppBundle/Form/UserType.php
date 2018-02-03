@@ -5,18 +5,20 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class BrandType extends AbstractType
+class UserType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name');
+        $builder->add('employeenumber')
+                ->add('firstname')
+                ->add('lastname')
+                ->add('middlename')
+                ->add('email')
+                ->add('plainpassword');
     }
     
     /**
@@ -25,7 +27,7 @@ class BrandType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Brand'
+            'data_class' => 'AppBundle\Entity\User'
         ));
     }
 
@@ -34,7 +36,7 @@ class BrandType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_brand';
+        return 'appbundle_user';
     }
 
 

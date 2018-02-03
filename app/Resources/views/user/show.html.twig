@@ -8,21 +8,21 @@
         </div>
         <div class = "row">
             <div class = "col-md-3"><label>Employee Number</label></div>
-            <div class = "col-md-3">{{ app.user.employeenumber }}</div>
+            <div class = "col-md-3">{{ user.employeenumber }}</div>
             <div class = "col-md-3"><label>Department</label></div>
-            <div class = "col-md-3">{{ app.user.department ? app.user.department.name : "Not Assigned" }}</div>
+            <div class = "col-md-3">{{ user.department ? user.department.name : "Not Assigned" }}</div>
         </div>
         <div class = "row">
             <div class = "col-md-3"><label>First Name</label></div>
-            <div class = "col-md-3">{{ app.user.firstname }}</div>
+            <div class = "col-md-3">{{ user.firstname }}</div>
             <div class = "col-md-3"><label>Last Name</label></div>
-            <div class = "col-md-3">{{ app.user.lastname }}</div>
+            <div class = "col-md-3">{{ user.lastname }}</div>
         </div>
         <div class = "row">
             <div class = "col-md-3"><label>E-Mail</label></div>
-            <div class = "col-md-3">{{ app.user.email }}</div>
+            <div class = "col-md-3">{{ user.email }}</div>
             <div class = "col-md-3"><label>Asset Count</label></div>
-            <div class = "col-md-3">{{ app.user.assets.count }}</div>
+            <div class = "col-md-3">{{ user.assets.count }}</div>
         </div>
     </div>
 
@@ -36,8 +36,8 @@
             <div class = "col-md-4">Location</div>
             <div class = "col-md-3">Status</div>
         </div>
-        {% if app.user.assets is not empty %}
-                {% for asset in app.user.assets %}
+        {% if user.assets is not empty %}
+                {% for asset in user.assets %}
                         <div class = "row">
                             <div class = "col-md-5 name"><a href = "{{path('asset_show',{'id':asset.id})}}">{{ asset.code }}</a></div>
                             <div class = "col-md-4 employee">{{ asset.location.name }}</div>

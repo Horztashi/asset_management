@@ -72,11 +72,7 @@ class DefaultController extends Controller
     public function profileAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $assets = $em->getRepository('AppBundle:Asset')->findByUser($this->getUser());
-
-
-        return $this->render('profile.html.twig',array('assets'=>$assets));
+        return $this->render('profile.html.twig');
     }
 
     /**
