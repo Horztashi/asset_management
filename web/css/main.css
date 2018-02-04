@@ -52,12 +52,6 @@ body{
   font-weight: bold;
 }
 
-.btn-fixed{
-  position: fixed;
-  margin-left: 15px;
-  z-index: 9999;
-}
-
 .img-user{
   height: 2em;
   margin-right: 5px;

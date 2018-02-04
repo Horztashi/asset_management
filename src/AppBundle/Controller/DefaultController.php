@@ -52,7 +52,19 @@ class DefaultController extends Controller
             $statusesArray[] = array('name' => $statusName, 'count' => $assetCount);
         }
 
+        // For Disposal
+        $disposalAssets   = count($em->getRepository('AppBundle:Asset')->findByStatus(3));
 
+        // Monthly: New Assets
+        $mNewAssets         = count($em->getRepository('AppBundle:Log')->findByType('N'));
+
+        // Monthly: Changed Custodian
+        $mAssigned         = count($em->getRepository('AppBundle:Log')->findByType('A'));
+        // Monthly: Changed Status
+        $mStatus         = count($em->getRepository('AppBundle:Log')->findByType('S'));
+
+        // Upcoming Maintenance
+        $upcomingMaintenance = $em->getRepository('AppBundle:Maintenance')->findByScheduleGreaterThanWithLimit(new \Datetime,3);
 
         return $this->render('index.html.twig',array(
                             'notDefectiveAssets' => $notDefectiveAssets,
@@ -63,7 +75,13 @@ class DefaultController extends Controller
                             'assignedAssets' => $assignedAssets,
                             'categoriesArray' => $categoriesArray,
                             'statusesArray' => $statusesArray,
-                            ));
+                            'disposalAssets' => $disposalAssets,
+                            'mNewAssets' => $mNewAssets,
+                            'mAssigned' => $mAssigned,
+                            'mStatus' => $mStatus,
+                            'upcomingMaintenance' => $upcomingMaintenance,
+                            
+                        ));
     }
 
     /**
