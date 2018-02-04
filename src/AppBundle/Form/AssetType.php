@@ -7,7 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-    use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,10 +30,10 @@ class AssetType extends AbstractType
                 ->add('model', EntityType::class, array('class'=>'AppBundle:Model','choice_label'=>'name'))
                 ->add('price', MoneyType::class, array('divisor' => 100, 'currency' => 'PHP'))
                 ->add('manufacturerserial', TextType::class)
-                ->add('warrantystart', DateType::class)
-                ->add('warrantyend', DateType::class)
-                ->add('purchasedate', DateType::class)
-                ->add('servicedate', DateType::class)
+                ->add('warrantystart', DateType::class, array('widget'=>'single_text'))
+                ->add('warrantyend', DateType::class, array('widget'=>'single_text'))
+                ->add('purchasedate', DateType::class, array('widget'=>'single_text'))
+                ->add('servicedate', DateType::class, array('widget'=>'single_text'))
                 ;
     }
     

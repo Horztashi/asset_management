@@ -30,7 +30,7 @@ class Model
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Brand", inversedBy="features")
+     * @ORM\ManyToOne(targetEntity="Brand", inversedBy="models")
      * @ORM\JoinColumn(name="brand_id", referencedColumnName="id")
      */
     private $brand;

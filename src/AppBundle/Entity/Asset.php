@@ -174,29 +174,6 @@ class Asset
         return $this->name;
     }
 
-    /**
-     * Set room
-     *
-     * @param \AppBundle\Entity\Room $room
-     *
-     * @return Asset
-     */
-    public function setRoom(\AppBundle\Entity\Room $room = null)
-    {
-        $this->room = $room;
-
-        return $this;
-    }
-
-    /**
-     * Get room
-     *
-     * @return \AppBundle\Entity\Room
-     */
-    public function getRoom()
-    {
-        return $this->room;
-    }
 
     /**
      * Set category

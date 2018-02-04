@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id = "datalist" class = "datalist">
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-md-6"><h4>Scheduled Maintenance</h4></div>
+                <div class = "col-md-4"><input class = "search form-control" placeholder = "Search"></div>
+                <div class = "col-md-2">
+                    <a class = "btn btn-success btn-block"  data-toggle = "modal" data-target = "#newModal"><i class = "fa fa-plus"></i>Add</a>
+                </div>
+            </div>
+        </div>
+
+        <div class = "container list">
+            {% for maintenance in maintenances %}
+                <div class = "row">
+                    <div class = "col-md-2">{{maintenance.asset.code}}</div>
+                    <div class = "col-md-2">{{maintenance.vendor.name}}</div>
+                    <div class = "col-md-2">{{maintenance.schedule | date('M d, Y h:i A')}}</div>
+                    <div class = "col-md-2">
+                        {% if maintenance.actual is not null %}
+                            {{maintenance.actual | date('M d, Y h:i A')}}
+                        {% else %}
+                            <span class = "text-muted">Not yet Done</span>
+                        {% endif %}
+                    </div>
+                    <div class = "col-md-2 text-center">
+                        {% if date(maintenance.actual) > date(maintenance.schedule) %}
+                            <span class = "label label-danger">Overdue</span>
+                        {% else %}
+                            <span class = "label label-success">Not overdue</span>
+                        {% endif %}
+                    </div>
+                    <div class = "col-md-2">
+                        {% if maintenance.actual is not null %}
+                            <a class = "btn btn-block btn-default" disabled = "disabled">DONE</a>
+                        {% else %}
+                            <a class = "btn btn-success btn-block">Set as DONE</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class = "container">
+            <div class = "row text-center">
+                    <ul class="pagination"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class = "modal" id = "newModal" tabindex="-1" role = "dialog">
+        <div class = "modal-dialog" role = "document">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title">Add Maintenance Schedule</h5>
+                </div>
+                <div class = "modal-body">
+                    {{form_start(form)}}
+                    {{form_widget(form)}}
+                    <button class = "btn btn-block btn-success" type="submit"><i class = "fa fa-plus"></i>Add</button>
+                    {{form_end(form)}}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
