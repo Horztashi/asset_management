@@ -47,14 +47,14 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=75)
+     * @ORM\Column(name="firstname", type="string", length=75, nullable=true)
      */
     private $firstname;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastname", type="string", length=75)
+     * @ORM\Column(name="lastname", type="string", length=75, nullable=true)
      */
     private $lastname;
 
@@ -64,6 +64,13 @@ class User extends BaseUser
      * @ORM\Column(name="middlename", type="string", length=75, nullable=true)
      */
     private $middlename;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="position", type="string", length=75, nullable=true)
+     */
+    private $position;
 
     /**
      * @ORM\ManyToOne(targetEntity="Department", inversedBy="assets")
@@ -323,5 +330,29 @@ class User extends BaseUser
     public function getAssets()
     {
         return $this->assets;
+    }
+
+    /**
+     * Set position
+     *
+     * @param string $position
+     *
+     * @return User
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return string
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

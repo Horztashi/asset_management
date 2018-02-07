@@ -76,30 +76,30 @@ class Asset
 
 
     /**
-     * @var \DateTime
+     * @var date
      *
-     * @ORM\Column(name="warrantystart", type="datetime")
+     * @ORM\Column(name="warrantystart", type="date")
      */
     private $warrantystart;
 
     /**
-     * @var \DateTime
+     * @var date
      *
-     * @ORM\Column(name="warrantyend", type="datetime")
+     * @ORM\Column(name="warrantyend", type="date")
      */
     private $warrantyend;
 
     /**
-     * @var \DateTime
+     * @var date
      *
-     * @ORM\Column(name="purchasedate", type="datetime")
+     * @ORM\Column(name="purchasedate", type="date")
      */
     private $purchasedate;
 
     /**
-     * @var \DateTime
+     * @var date
      *
-     * @ORM\Column(name="servicedate", type="datetime")
+     * @ORM\Column(name="servicedate", type="date")
      */
     private $servicedate;
 

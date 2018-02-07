@@ -32,17 +32,41 @@
                 {% endif %}
             </div>
             <div class = "col-sm-3"><label>Location</label></div>
-            <div class = "col-sm-3">{{asset.location.name}}</div>
+            <div class = "col-sm-3">
+                {% if asset.location %}
+                    {{asset.location.name}}
+                {% else %}
+                    <span class = "text-muted"> NOT ASSIGNED</span>
+                {% endif %}
+            </div>
         </div>
         <div class = "row">
             <div class = "col-sm-3"><label>Category</label></div>
-            <div class = "col-sm-3">{{asset.category.name}}</div>
+            <div class = "col-sm-3">
+                {% if asset.category %}                
+                    {{asset.category.name}}
+                {% else %}
+                    <span class = "text-muted"> NOT ASSIGNED</span>
+                {% endif %}
+            </div>
             <div class = "col-sm-3"><label>Model</label></div>
-            <div class = "col-sm-3">{{asset.model.name}} ({{asset.model.brand.name}})</div>
+            <div class = "col-sm-3">
+                {% if asset.model %}                
+                    {{asset.model.name}} ({{asset.model.brand.name}})
+                {% else %}
+                    <span class = "text-muted"> NOT ASSIGNED</span>
+                {% endif %}
+            </div>
         </div>
         <div class = "row">
             <div class = "col-sm-3"><label>Status</label></div>
-            <div class = "col-sm-3">{{asset.status.name}}</div>
+            <div class = "col-sm-3">
+                {% if asset.status %}                                
+                    {{asset.status.name}}
+                {% else %}
+                    <span class = "text-muted"> NOT ASSIGNED</span>
+                {% endif %}
+            </div>
             <div class = "col-sm-3"><label>Asset Type</label></div>
             <div class = "col-sm-3">{% if asset.ispersonal %}PERSONAL{% else %}GENERAL{% endif %}</div>
         </div>
