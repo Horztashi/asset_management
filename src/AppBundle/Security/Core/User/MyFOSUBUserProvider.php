@@ -44,8 +44,8 @@ class MyFOSUBUserProvider extends BaseFOSUBProvider
         // if null just create new user and set it properties
         if (null === $user) {
             // Create new User Instance
-            $user = new User();
-
+//            $user = new User();
+            return null;
             // Intialize Values
             $user->setUsername($userEmail);
             $user->setEmail($userEmail);
