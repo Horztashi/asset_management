@@ -7,7 +7,7 @@
                 <div class = "col-md-6"><h4>List of Users</h4></div>
                 <div class = "col-md-4"><input class = "search form-control" placeholder = "Search"></div>
                 <div class = "col-md-2">
-                    <a class = "btn btn-success btn-block"  data-toggle = "modal" data-target = "#newModal"><i class = "fa fa-plus"></i>Add</a>
+                    <a class = "btn btn-success btn-block"  href="{{path('user_new')}}"><i class = "fa fa-plus"></i>Add</a>
                 </div>
             </div>
         </div>
@@ -15,38 +15,34 @@
         <div class = "container list">
             {% for user in users %}
                 <div class = "row">
-                    <div class = "col-md-2">
+                    <div class = "col-md-2 border-right">
+                        <div class = "btn-group">
+                            <a href="{{ path('user_show',{'id':user.id})}}" class = "btn btn btn-primary"><i class="far fa-user"></i></a>
+                            <a href="{{ path('user_edit',{'id':user.id})}}" class = "btn btn btn-primary"><i class="fa fa-edit"></i></a>
+                        </div>
+                    </div>
+                    <div class = "col-md-4">
                         {% if user.googleProfilePicture %}
                             <img class = "img-rounded pull-left img-user" src = "{{ user.googleProfilePicture }}"/>
                         {% else %}
-                            <i class="fas fa-user"></i>
+                            <img class = "img-rounded pull-left img-user" src = "{{ asset('images/no-user-image.png') }}"/>
                         {% endif %}
                         <span class="empno">{{ user.employeenumber }}</span>
-                    </div>
-                    <div class = "col-md-3">
-                        <span class="name">{{ user.fullname }}</span>                        
-                    </div>
-                    <div class = "col-md-3">
-                        <span class="email">{{ user.email }}</span>
-                    </div>
-                    <div class = "col-md-1">
-                        <span class="assetcount pull-right">{{user.assets.count}} Assets</span>                        
-                    </div>
-                    <div class = "col-md-1">
-                        <span class="active pull-right">
+                        <span>
                             {% if user.enabled %}
                                 <span class = "label label-success">ACTIVE</span>
                             {% else %}
                                 <span class = "label label-danger">NOT ACTIVE</span>
-                            {% endif %}
-                            
+                            {% endif %}                            
                         </span>
+
+                        <div class="name">{{ user.fullname }}</div>
+                    </div>
+                    <div class = "col-md-4">
+                        <span class="email">{{ user.email }}</span>
                     </div>
                     <div class = "col-md-2">
-                        <div class = "btn-group pull-right">
-                            <a href="{{ path('user_show',{'id':user.id})}}" class = "btn btn btn-primary"><i class="far fa-user"></i></a>
-                            <a href="{{ path('user_edit',{'id':user.id})}}" class = "btn btn btn-primary"><i class="fa fa-edit"></i></a>
-                        </div>
+                        <span class="assetcount">{{user.assets.count}} Assets</span>                        
                     </div>
                 </div>
             {% endfor %}

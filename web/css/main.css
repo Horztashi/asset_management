@@ -25,6 +25,10 @@ body{
   border:1px solid #DADADA;
 }
 
+.border-right{
+  border-right:1px solid #DADADA;
+}
+
 .row{
     padding: 5px;
 }
@@ -53,9 +57,10 @@ body{
 }
 
 .img-user{
-  height: 2em;
+  height: 3.0em;
   margin-right: 5px;
 }
+
 
 /********************* sorting ******************/
 .sort:after {

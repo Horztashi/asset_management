@@ -51,7 +51,8 @@ class UserController extends Controller
             return $this->redirectToRoute('user_show', array('id' => $user->getId()));
         }
 
-        return $this->render('user/new.html.twig', array(
+        return $this->render('generic_form_view.html.twig', array(
+            'title'=> 'New User',
             'user' => $user,
             'form' => $form->createView(),
         ));
