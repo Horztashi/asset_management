@@ -135,4 +135,20 @@ class AssetController extends Controller
             'title' => 'Edit asset'
         ));
     }
+
+    /**
+     * Lists all asset entities.
+     *
+     * @Route("/unassign/", name="asset_unassign")
+     * @Method("GET")
+     */
+    public function unassignAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $assets = $em->getRepository('AppBundle:Asset')->findByUser(null);
+            
+        return $this->render('asset/index.html.twig', array(
+            'assets' => $assets,
+        ));
+    }
 }

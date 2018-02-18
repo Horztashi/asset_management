@@ -21,7 +21,7 @@ class DefaultController extends Controller
         $allAssets          = count($em->getRepository('AppBundle:Asset')->findAll());
 
         // None Defective Assets vs. Defective Assets
-        $defectiveAssets    = count($em->getRepository('AppBundle:Asset')->findByStatus(4));
+        $defectiveAssets    = count($em->getRepository('AppBundle:Asset')->findByStatus(2));
         $notDefectiveAssets = $allAssets - $defectiveAssets;     
 
         // Critical vs Non-Critical Assets

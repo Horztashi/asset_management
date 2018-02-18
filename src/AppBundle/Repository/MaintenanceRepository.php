@@ -12,14 +12,21 @@ class MaintenanceRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function findByScheduleGreaterThanWithLimit(\DateTime $dateTime, int $count){
 	
-		$query = $this->createQueryBuilder('m')
-		    ->where('m.schedule > :dateTime')
+		$query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT m 
+                 FROM AppBundle:Maintenance m 
+                 WHERE m.schedule >= :dateTime 
+                 ORDER BY m.schedule ASC
+                 '
+            )
+		    //->where('m.schedule > :dateTime')
 		    ->setParameter('dateTime', $dateTime)
-		    ->orderBy('m.schedule', 'ASC')
-		    ->setMaxResults($count)
-		    ->getQuery();
+		    //->orderBy('m.schedule', 'ASC')
+		    //->setMaxResults($count)
+		    ;
 
-		$schedules = $query->getResult();
+		return $query->getResult();
 }
 
 

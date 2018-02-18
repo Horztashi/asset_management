@@ -8,9 +8,18 @@
                     <li class = "list-group-item">
                         <h4 class="list-group-item-heading">Reminders</h4>
                     </li>
-                    <li class = "list-group-item"><span class="badge">{{unassignedAssets}}</span>Un-assigned Assets</li>
-                    <li class = "list-group-item"><span class="badge">{{defectiveAssets}}</span>Defective Assets</li>
-                    <li class = "list-group-item"><span class="badge">{{disposalAssets}}</span>For disposal</li>
+                    <li class = "list-group-item">
+                        <span class="badge">{{unassignedAssets}}</span>
+                        <a href = "{{ path('asset_unassign')}}">Un-assigned Assets</a>
+                    </li>
+                    <li class = "list-group-item">
+                        <span class="badge">{{defectiveAssets}}</span>
+                        <a href = "{{ path('status_show', {id:2})}}">Defective Assets</a>
+                    </li>
+                    <li class = "list-group-item">
+                        <span class="badge">{{disposalAssets}}</span>
+                        <a href = "{{ path('status_show', {id:3})}}">For disposal</a>
+                    </li>
                 </ul>
             </div>
             <div class = "col-md-4">
@@ -29,7 +38,10 @@
                         <h4 class="list-group-item-heading">Upcoming Maintenance</h4>
                     </li>
                     {% for schedule in upcomingMaintenance%}
-                        <li class = "list-group-item">{{ schedule.asset }}<span class ="pull-right">{{schedule.schedule}}</span></li>
+                        {% if loop.index < 4 %}
+                        <li class = "list-group-item">{{ schedule.asset.code }}<span class ="pull-right">{{schedule.schedule| date('M d, Y h:i a')}}</span></li>
+
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>
