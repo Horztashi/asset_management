@@ -1,6 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<form action="{{ path("fos_user_security_check") }}" method="post" class = "container login-form">
+<form action="{{ path("fos_user_security_check") }}" method="post" class = "container border login-form">
     <div class = "row">
         <h3>Login <small>with site credentials</small></h3>
     </div>
@@ -17,12 +17,6 @@
     </div>
     <div class = "row">
         <input type="submit" id="_submit" name="_submit" value="LOGIN" class = "btn btn-success btn-block" />
-    </div>
-    <div class = "row">
-        <h4 class = "text-muted text-center">OR</h4>
-    </div>
-    <div class = "row">
-        <a href="/connect/google" class = "btn btn-block btn-google">Login with <i class="fab fa-google-plus-g"></i></a>
     </div>
 
     {% if error is defined and error %}
