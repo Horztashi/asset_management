@@ -31,13 +31,13 @@
         <div class = "container list">
             {% if assets is not empty %}
                 {% for asset in assets %}
-                        <div class = "row">
+                        <div class = "row {% if asset.status.id in [2,3,4,5] %}bg-danger{% endif %}">
                             <div class = "col-md-5 name"><a href = "{{path('asset_show',{'id':asset.id})}}">{{ asset.code }}</a></div>
                             <div class = "col-md-4 employee">
                                 {% if asset.user %}
                                     {{asset.user.fullname}}
                                 {% else %}
-                                    <span class = "text-muted"> NOT ASSIGNED</span>
+                                    <span class = "text-muted">NOT ASSIGNED</span>
                                 {% endif %}
                         </div>
                             <div class = "col-md-3 status">{{ asset.status.name }}</div>

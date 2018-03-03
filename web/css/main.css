@@ -8,7 +8,6 @@ form > input{
 
 body{
 	background: #F0F0F0;
-	margin-top: 60px;
 }
 
 .container{
@@ -22,7 +21,7 @@ body{
 }
 
 .border{
-  border:1px solid #DADADA;
+  border: 1px solid #DADADA;
 }
 
 .border-right{
