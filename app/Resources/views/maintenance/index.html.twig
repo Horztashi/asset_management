@@ -15,16 +15,9 @@
         <div class = "container list">
             {% for maintenance in maintenances %}
                 <div class = "row">
-                    <div class = "col-md-2">{{maintenance.asset.code}}</div>
+                    <div class = "col-md-4">{{maintenance.title}}</div>
                     <div class = "col-md-2">{{maintenance.vendor.name}}</div>
                     <div class = "col-md-2">{{maintenance.schedule | date('M d, Y h:i A')}}</div>
-                    <div class = "col-md-2">
-                        {% if maintenance.actual is not null %}
-                            {{maintenance.actual | date('M d, Y h:i A')}}
-                        {% else %}
-                            <span class = "text-muted">Not yet Done</span>
-                        {% endif %}
-                    </div>
                     <div class = "col-md-2 text-center">
                         {% if date(maintenance.actual) > date(maintenance.schedule) %}
                             <span class = "label label-danger">Overdue</span>

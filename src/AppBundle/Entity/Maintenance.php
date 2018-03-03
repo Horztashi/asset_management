@@ -22,8 +22,7 @@ class Maintenance
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Asset", inversedBy="maintenance")
-     * @ORM\JoinColumn(name="asset_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Asset", inversedBy="maintenance")
      */
     private $asset;
 
@@ -32,6 +31,13 @@ class Maintenance
      * @ORM\JoinColumn(name="vendor_id", referencedColumnName="id")
      */
     private $vendor;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="title", type="string", length=25, nullable=false)
+     */
+    private $title;
 
     /**
      * @var string
@@ -235,5 +241,53 @@ class Maintenance
     public function getActual()
     {
         return $this->actual;
+    }
+
+    /**
+     * Add asset
+     *
+     * @param \AppBundle\Entity\Asset $asset
+     *
+     * @return Maintenance
+     */
+    public function addAsset(\AppBundle\Entity\Asset $asset)
+    {
+        $this->asset[] = $asset;
+
+        return $this;
+    }
+
+    /**
+     * Remove asset
+     *
+     * @param \AppBundle\Entity\Asset $asset
+     */
+    public function removeAsset(\AppBundle\Entity\Asset $asset)
+    {
+        $this->asset->removeElement($asset);
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Maintenance
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

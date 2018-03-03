@@ -52,11 +52,8 @@ class MaintenanceController extends Controller
      */
     public function showAction(Maintenance $maintenance)
     {
-        $deleteForm = $this->createDeleteForm($maintenance);
-
         return $this->render('maintenance/show.html.twig', array(
             'maintenance' => $maintenance,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
@@ -77,9 +74,10 @@ class MaintenanceController extends Controller
             return $this->redirectToRoute('maintenance_edit', array('id' => $maintenance->getId()));
         }
 
-        return $this->render('maintenance/edit.html.twig', array(
+        return $this->render('generic_form_view.html.twig', array(
             'maintenance' => $maintenance,
-            'edit_form' => $editForm->createView(),
+            'form' => $editForm->createView(),
+            'title' => 'Maintenance Update'
         ));
     }
 }

@@ -141,6 +141,11 @@ class Asset
     private $logs;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Maintenance", inversedBy="asset")
+     */
+    private $maintenance;
+
+    /**
      * Get id
      *
      * @return integer
@@ -646,5 +651,39 @@ class Asset
     public function getIsPersonal()
     {
         return $this->isPersonal;
+    }
+
+    /**
+     * Add maintenance
+     *
+     * @param \AppBundle\Entity\Maintenance $maintenance
+     *
+     * @return Asset
+     */
+    public function addMaintenance(\AppBundle\Entity\Maintenance $maintenance)
+    {
+        $this->maintenance[] = $maintenance;
+
+        return $this;
+    }
+
+    /**
+     * Remove maintenance
+     *
+     * @param \AppBundle\Entity\Maintenance $maintenance
+     */
+    public function removeMaintenance(\AppBundle\Entity\Maintenance $maintenance)
+    {
+        $this->maintenance->removeElement($maintenance);
+    }
+
+    /**
+     * Get maintenance
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMaintenance()
+    {
+        return $this->maintenance;
     }
 }
