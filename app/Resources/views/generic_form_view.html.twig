@@ -5,6 +5,23 @@
 		<h4 class = "text-center">{{ title }}</h4>
     {{ form_start(form) }}
         {{ form_widget(form) }}
+        {# store the prototype on the data-prototype attribute #}
+    <ul id="asset-fields-list"
+        data-prototype="{{ form_widget(form.assets.vars.prototype)|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}">
+	    {% for asset in form.assets %}
+	        <li>
+	            {{ form_errors(asset) }}
+	            {{ form_widget(asset) }}
+	        </li>
+	    {% endfor %}
+    </ul>
+
+    <a href="#"
+        class="add-another-collection-widget btn btn-primary btn-block"
+        data-list="#asset-fields-list">Add Asset</a>
+
+    {# ... #}
         <input type="submit" class ="btn btn-block btn-success" value="Save" />
     {{ form_end(form) }}
 	</div>

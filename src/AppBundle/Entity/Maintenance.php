@@ -24,7 +24,7 @@ class Maintenance
     /**
      * @ORM\ManyToMany(targetEntity="Asset", inversedBy="maintenance")
      */
-    private $asset;
+    private $assets;
 
     /**
      * @ORM\ManyToOne(targetEntity="Vendor", inversedBy="maintenance")
@@ -54,9 +54,9 @@ class Maintenance
     private $schedule;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="actual", type="datetime", nullable=true)
+     * @ORM\Column(name="actual", type="date")
      */
     private $actual;
 
@@ -65,10 +65,11 @@ class Maintenance
         $this->setSchedule(new \DateTime());
     }
 
+
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -76,27 +77,27 @@ class Maintenance
     }
 
     /**
-     * Set provider
+     * Set title
      *
-     * @param string $provider
+     * @param string $title
      *
      * @return Maintenance
      */
-    public function setProvider($provider)
+    public function setTitle($title)
     {
-        $this->provider = $provider;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * Get provider
+     * Get title
      *
      * @return string
      */
-    public function getProvider()
+    public function getTitle()
     {
-        return $this->provider;
+        return $this->title;
     }
 
     /**
@@ -148,78 +149,6 @@ class Maintenance
     }
 
     /**
-     * Set isdone
-     *
-     * @param boolean $isdone
-     *
-     * @return Maintenance
-     */
-    public function setIsdone($isdone)
-    {
-        $this->isdone = $isdone;
-
-        return $this;
-    }
-
-    /**
-     * Get isdone
-     *
-     * @return bool
-     */
-    public function getIsdone()
-    {
-        return $this->isdone;
-    }
-
-    /**
-     * Set asset
-     *
-     * @param \AppBundle\Entity\Asset $asset
-     *
-     * @return Maintenance
-     */
-    public function setAsset(\AppBundle\Entity\Asset $asset = null)
-    {
-        $this->asset = $asset;
-
-        return $this;
-    }
-
-    /**
-     * Get asset
-     *
-     * @return \AppBundle\Entity\Asset
-     */
-    public function getAsset()
-    {
-        return $this->asset;
-    }
-
-    /**
-     * Set vendor
-     *
-     * @param \AppBundle\Entity\Vendor $vendor
-     *
-     * @return Maintenance
-     */
-    public function setVendor(\AppBundle\Entity\Vendor $vendor = null)
-    {
-        $this->vendor = $vendor;
-
-        return $this;
-    }
-
-    /**
-     * Get vendor
-     *
-     * @return \AppBundle\Entity\Vendor
-     */
-    public function getVendor()
-    {
-        return $this->vendor;
-    }
-
-    /**
      * Set actual
      *
      * @param \DateTime $actual
@@ -252,7 +181,7 @@ class Maintenance
      */
     public function addAsset(\AppBundle\Entity\Asset $asset)
     {
-        $this->asset[] = $asset;
+        $this->assets[] = $asset;
 
         return $this;
     }
@@ -264,30 +193,40 @@ class Maintenance
      */
     public function removeAsset(\AppBundle\Entity\Asset $asset)
     {
-        $this->asset->removeElement($asset);
+        $this->assets->removeElement($asset);
     }
 
     /**
-     * Set title
+     * Get assets
      *
-     * @param string $title
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAssets()
+    {
+        return $this->assets;
+    }
+
+    /**
+     * Set vendor
+     *
+     * @param \AppBundle\Entity\Vendor $vendor
      *
      * @return Maintenance
      */
-    public function setTitle($title)
+    public function setVendor(\AppBundle\Entity\Vendor $vendor = null)
     {
-        $this->title = $title;
+        $this->vendor = $vendor;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get vendor
      *
-     * @return string
+     * @return \AppBundle\Entity\Vendor
      */
-    public function getTitle()
+    public function getVendor()
     {
-        return $this->title;
+        return $this->vendor;
     }
 }
