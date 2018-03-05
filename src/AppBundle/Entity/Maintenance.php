@@ -56,7 +56,7 @@ class Maintenance
     /**
      * @var \Date
      *
-     * @ORM\Column(name="actual", type="date")
+     * @ORM\Column(name="actual", type="date", nullable=true)
      */
     private $actual;
 

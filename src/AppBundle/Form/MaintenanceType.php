@@ -29,7 +29,6 @@ class MaintenanceType extends AbstractType
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
-                    'prototype_data' => 'New Tag Placeholder',
                     'by_reference' => true,
                 ))
                 /*->add('assets', CollectionType::class, array(
