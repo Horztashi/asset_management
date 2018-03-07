@@ -19,27 +19,23 @@ class MaintenanceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('title')
+                ->add('vendor', EntityType::class, array('class'=>'AppBundle:Vendor','choice_label'=>'name'))
+                ->add('schedule', DateType::class, array('widget'=>'single_text'))
+                ->add('reason')
                 ->add('assets', CollectionType::class, array(
-                    'label' => false,
+                    'label' => 'Assets',
                     'entry_type' => EntityType::class,
                     'entry_options' => array(   'class'=>'AppBundle:Asset',
+                                                'label'=>false,
                                                 'choice_label'=>'code',
-                                                'attr'=> array(
-                                                                'class'=>'')),
+                                                ),
+                    'allow_delete' =>true,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
                     'by_reference' => true,
-                ))
-                /*->add('assets', CollectionType::class, array(
-                        'entry_type' => TextType::class ,
-                        'allow_add' => true,
-                        'entry_options'=> array(
-                            'attr' =>array('class' => 'email-box')
-                        )))*/
-                ->add('vendor', EntityType::class, array('class'=>'AppBundle:Vendor','choice_label'=>'name'))
-                ->add('schedule', DateType::class, array('widget'=>'single_text'))
-                ->add('reason');
+                    'attr'=> array('class'=>'asset-collection'),
+                ));
     }
     
     /**

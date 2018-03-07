@@ -60,6 +60,13 @@ body{
   margin-right: 5px;
 }
 
+.no-bullet{
+  list-style-type: none;
+}
+
+.with-margin{
+  margin: 5px;
+}
 
 /********************* sorting ******************/
 .sort:after {

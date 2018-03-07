@@ -1,4 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+	<div class = "container information" style = "">
+        <div class = "row">
+            <div class = "col-sm-12 text-center"><h4>General Information</h4></div>
+        </div>
+        <div class = "row">
+        	<div class = "col-md-3"><label>Title</label></div>
+        	<div class = "col-md-3">{{ maintenance.title }}</div>
+        	<div class = "col-md-3"><label>Status</label></div>
+        	<div class = "col-md-3">{% if maintenance.actual %}DONE{% else %} NOT DONE {% endif %}</div>
+        </div>
+        <div class = "row">
+        	<div class = "col-md-3"><label>Schedule Date</label></div>
+        	<div class = "col-md-3">{{ maintenance.schedule | date('F d, Y') }}</div>
+        	<div class = "col-md-3"><label>Actual Date</label></div>
+        	<div class = "col-md-3">{% if maintenance.actual %}{{ maintenance.actual | date('F d, Y') }}{% endif %}</div>
+        </div>
+        <div class = "row">
+        	<div class = "col-md-3"><label>Reason</label></div>
+        	<div class = "col-md-9">{{ maintenance.reason }}</div>
+        </div>
+        <div class = "row">
+            <div class = "col-sm-12 text-center"><h4>Affected Assets</h4></div>
+        </div>
+        {% for asset in maintenance.assets %}
+        	<div class = "row">
+        		<div class = "col-md-3"><a href = "{{ path('asset_show', {id: asset.id})}}">{{asset.code}}</a></div>
+        		<div class = "col-md-3">{{asset.description}}</div>
+        		<div class = "col-md-3"><a href = "{{ path('user_show', {id: asset.user.id})}}">{{asset.user.fullname}}</a></div>
+        		<div class = "col-md-3">{{asset.status.name}}</div>
+        	</div>
+        {% endfor %}
+    </div>
 {% endblock %}

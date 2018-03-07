@@ -39,7 +39,7 @@
                     </li>
                     {% for schedule in upcomingMaintenance%}
                         {% if loop.index < 4 %}
-                        <li class = "list-group-item">{{ schedule.asset.code }}<span class ="pull-right">{{schedule.schedule| date('M d, Y h:i a')}}</span></li>
+                        <li class = "list-group-item">{{ schedule.title }}<span class ="pull-right">{{schedule.schedule| date('M d, Y h:i a')}}</span></li>
 
                         {% endif %}
                     {% endfor %}

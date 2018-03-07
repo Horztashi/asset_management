@@ -74,7 +74,7 @@ class MaintenanceController extends Controller
             return $this->redirectToRoute('maintenance_edit', array('id' => $maintenance->getId()));
         }
 
-        return $this->render('generic_form_view.html.twig', array(
+        return $this->render('maintenance/edit.html.twig', array(
             'maintenance' => $maintenance,
             'form' => $editForm->createView(),
             'title' => 'Maintenance Update'
