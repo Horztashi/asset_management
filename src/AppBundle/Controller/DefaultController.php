@@ -90,7 +90,7 @@ class DefaultController extends Controller
     public function profileAction()
     {
         $em = $this->getDoctrine()->getManager();
-        return $this->render('profile.html.twig');
+        return $this->render('profile.html.twig', array('user'=>$this->getUser()));
     }
 
     /**

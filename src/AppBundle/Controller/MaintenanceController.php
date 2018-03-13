@@ -71,7 +71,7 @@ class MaintenanceController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('maintenance_edit', array('id' => $maintenance->getId()));
+            return $this->redirectToRoute('maintenance_show', array('id' => $maintenance->getId()));
         }
 
         return $this->render('maintenance/edit.html.twig', array(
@@ -79,5 +79,37 @@ class MaintenanceController extends Controller
             'form' => $editForm->createView(),
             'title' => 'Maintenance Update'
         ));
+    }
+
+    /**
+     * Displays a form to edit an existing maintenance entity.
+     *
+     * @Route("/{id}/done", name="maintenance_done")
+     * @Method("GET")
+     */
+    public function doneAction(Maintenance $maintenance)
+    {
+        if($maintenance->getActual())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $maintenance->setActual(new \DateTime());
+            $em->flush();
+        }
+        return $this->redirectToRoute('maintenance_index');
+    }
+
+    /**
+     * Displays a form to edit an existing maintenance entity.
+     *
+     * @Route("/{id}/delete", name="maintenance_delete")
+     * @Method("GET")
+     */
+    public function deleteAction(Maintenance $maintenance)
+    {
+        $em = $this->getDoctrine()->getManager();
+            $em->remove($maintenance);
+            $em->flush();
+
+        return $this->redirectToRoute('maintenance_index');
     }
 }

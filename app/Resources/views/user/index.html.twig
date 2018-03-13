@@ -22,11 +22,6 @@
                         </div>
                     </div>
                     <div class = "col-md-4">
-                        {% if user.googleProfilePicture %}
-                            <img class = "img-rounded pull-left img-user" src = "{{ user.googleProfilePicture }}"/>
-                        {% else %}
-                            <img class = "img-rounded pull-left img-user" src = "{{ asset('images/no-user-image.png') }}"/>
-                        {% endif %}
                         <span class="empno">{{ user.employeenumber }}</span>
                         <span>
                             {% if user.enabled %}

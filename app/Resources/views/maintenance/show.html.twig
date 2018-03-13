@@ -3,6 +3,22 @@
 {% block body %}
 	<div class = "container information" style = "">
         <div class = "row">
+            <div class = "col-md-12">
+                <div class = "btn-group pull-right">
+                    {% if maintenance.actual is not null %}
+                        <a class = "btn btn-success" disabled = "disabled">Done</a>
+                        <a class = "btn btn-primary" disabled = "disabled">Edit Maintenance</a>
+                        <a class = "btn btn-primary" disabled = "disabled">Delete</a>
+                    {% else %}
+                        <a class = "btn btn-primary" href="{{ path('maintenance_done', { 'id': maintenance.id }) }}">Set as DONE</a>
+                        <a class = "btn btn-primary" href="{{ path('maintenance_edit', { 'id': maintenance.id }) }}">Edit Maintenance</a>
+                        <a class = "btn btn-primary" href="{{ path('maintenance_delete', { 'id': maintenance.id }) }}">Delete</a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        <div class = "row">
             <div class = "col-sm-12 text-center"><h4>General Information</h4></div>
         </div>
         <div class = "row">
@@ -28,7 +44,11 @@
         	<div class = "row">
         		<div class = "col-md-3"><a href = "{{ path('asset_show', {id: asset.id})}}">{{asset.code}}</a></div>
         		<div class = "col-md-3">{{asset.description}}</div>
-        		<div class = "col-md-3"><a href = "{{ path('user_show', {id: asset.user.id})}}">{{asset.user.fullname}}</a></div>
+        		<div class = "col-md-3">
+                    {% if asset.user %}
+                        <a href = "{{ path('user_show', {id: asset.user.id})}}">{{asset.user.fullname}}</a>
+                    {% endif %}
+                </div>
         		<div class = "col-md-3">{{asset.status.name}}</div>
         	</div>
         {% endfor %}

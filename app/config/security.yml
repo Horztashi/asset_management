@@ -59,5 +59,6 @@ security:
         - { path: ^/employee, role: ROLE_ADMIN}
         - { path: ^/status, role: ROLE_ADMIN}
         - { path: ^/vendor, role: ROLE_ADMIN}
+        - { path: ^/maintenance, role: ROLE_ADMIN}
         - { path: ^/asset/new, role: ROLE_ADMIN}
         - { path: ^/asset/.*/edit, role: ROLE_ADMIN}

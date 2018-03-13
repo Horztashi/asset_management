@@ -34,7 +34,7 @@ class MaintenanceType extends AbstractType
                     'allow_delete' => true,
                     'prototype' => true,
                     'by_reference' => true,
-                    'attr'=> array('class'=>'asset-collection'),
+                    'attr'=> array('class'=>'asset_collection'),
                 ));
     }
     
