@@ -44,6 +44,9 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setUsername($user->getEmployeenumber());
+            $user->setPlainPassword($user->getEmployeenumber());
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
