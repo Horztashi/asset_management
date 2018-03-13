@@ -15,9 +15,13 @@
         <div class = "container list">
             {% for item in items %}
                 <div class = "row">
-                    <div class = "col-md-12">
-                        <a href="/{{singular_name}}/{{item.id}}" class = "btn btn-sm btn-primary"><i class="fa fa-list"></i></a>
-                        <a href="/{{singular_name}}/{{item.id}}/edit" class = "btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                    <div class = "col-md-2 border-right">
+                        <div class = "btn-group">
+                            <a href="/{{singular_name}}/{{item.id}}" class = "btn btn-sm btn-primary"><i class="fa fa-list"></i></a>
+                            <a href="/{{singular_name}}/{{item.id}}/edit" class = "btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                        </div>
+                    </div>
+                    <div class = "col-md-10">
                         <span class="name">{{ item.name }}</span>
                     </div>
                 </div>

@@ -26,7 +26,7 @@
             <div class = "col-sm-3"><label>Custodian</label></div>
             <div class = "col-sm-3">
                 {% if asset.user %}
-                    {{asset.user.fullname}}
+                    <a href="{{ path('user_show',{id:asset.user.id}) }}">{{asset.user.fullname}}</a>
                 {% else %}
                     <span class = "text-muted"> NOT ASSIGNED</span>
                 {% endif %}
