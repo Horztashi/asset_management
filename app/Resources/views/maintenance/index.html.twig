@@ -20,7 +20,7 @@
                         <a href = "{{ path('maintenance_show', {id:maintenance.id}) }}">{{maintenance.title}}</a>
                     </div>
                     <div class = "col-md-2">{{maintenance.vendor.name}}</div>
-                    <div class = "col-md-2">{{maintenance.schedule | date('M d, Y h:i A')}}</div>
+                    <div class = "col-md-2">{{maintenance.schedule | date('F d, Y')}}</div>
                     <div class = "col-md-2 text-center">
                         {% if date(maintenance.actual) > date(maintenance.schedule) %}
                             <span class = "label label-danger">Overdue</span>

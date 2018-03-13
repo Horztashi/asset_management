@@ -89,7 +89,7 @@ class MaintenanceController extends Controller
      */
     public function doneAction(Maintenance $maintenance)
     {
-        if($maintenance->getActual())
+        if($maintenance->getActual() == null)
         {
             $em = $this->getDoctrine()->getManager();
             $maintenance->setActual(new \DateTime());
