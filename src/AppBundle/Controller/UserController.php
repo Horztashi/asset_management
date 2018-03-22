@@ -25,7 +25,6 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $users = $em->getRepository('AppBundle:User')->findAll();
-
         return $this->render('user/index.html.twig', array(
             'users' => $users,
         ));
@@ -70,6 +69,19 @@ class UserController extends Controller
     public function showAction(User $user)
     {
         return $this->render('profile.html.twig', array(
+            'user' => $user,
+        ));
+    }
+
+    /**
+     * Finds and displays a user entity via print.
+     *
+     * @Route("/{id}/print", name="user_print")
+     * @Method("GET")
+     */
+    public function printAction(User $user)
+    {
+        return $this->render('user/printshow.html.twig', array(
             'user' => $user,
         ));
     }

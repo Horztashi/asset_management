@@ -172,3 +172,14 @@ body{
     border-bottom-color: #EEEEEE;
     background-color: #FAFAFA;
   }
+
+
+/*Table Styling*/
+
+.accountability-table{
+  width: 8in;
+}
+
+.accountability-table td{
+  border: 1px solid black;
+}

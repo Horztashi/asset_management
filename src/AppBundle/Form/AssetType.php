@@ -22,7 +22,6 @@ class AssetType extends AbstractType
                 ->add('description', TextType::class)
                 ->add('iscritical', CheckboxType::class, array('label'=>'Is this a critical asset?','required' => false))
                 ->add('isPersonal', CheckboxType::class, array('label'=>'Is this a Personal asset?','required' => false))
-                ->add('user', EntityType::class, array('class'=>'AppBundle:User','choice_label'=>'fullname'))
                 ->add('location', EntityType::class, array('class'=>'AppBundle:Location','choice_label'=>'name'))
                 ->add('status', EntityType::class, array('class'=>'AppBundle:Status','choice_label'=>'name'))
                 ->add('category', EntityType::class, array('class'=>'AppBundle:Category','choice_label'=>'name'))

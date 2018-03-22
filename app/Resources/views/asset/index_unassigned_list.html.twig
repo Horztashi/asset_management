@@ -31,11 +31,11 @@
         <div class = "container list">
             {% if assets is not empty %}
                 {% for asset in assets %}
-                        <div class = "row {% if asset.status.id in [2,3,4,5] %}bg-danger{% endif %}">
-                            <div class = "col-md-3 code"><a href = "{{path('asset_show',{'id':asset.id})}}">{{ asset.code }}</a></div>
-                            <div class = "col-md-4 description"><span>{{ asset.description }}</span></div>
-                            <div class = "col-md-3 status"><span>{{ asset.status.name }}</span></div>
-                            <div class = "col-md-1 status"><span>{{ asset.users.count }} users </span></div>
+                        <div class = "row {% if asset.0.status.id in [2,3,4,5] %}bg-danger{% endif %}">
+                            <div class = "col-md-3 code"><a href = "{{path('asset_show',{'id':asset.0.id})}}">{{ asset.0.code }}</a></div>
+                            <div class = "col-md-4 description"><span>{{ asset.0.description }}</span></div>
+                            <div class = "col-md-3 status"><span>{{ asset.0.status.name }}</span></div>
+                            <div class = "col-md-1 status"><span>{{ asset.0.users.count }} users</span></div>
                         </div>
                 {% endfor %}
             {% else %}
@@ -53,5 +53,3 @@
         </div>
     </div>
 {% endblock %}
-
-

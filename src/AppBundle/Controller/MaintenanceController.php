@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Maintenance;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Maintenance controller.
@@ -99,7 +100,7 @@ class MaintenanceController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing maintenance entity.
+     * Deletes the selected Maintenance.
      *
      * @Route("/{id}/delete", name="maintenance_delete")
      * @Method("GET")
@@ -108,7 +109,7 @@ class MaintenanceController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
             $em->remove($maintenance);
-            $em->flush();
+        $em->flush();
 
         return $this->redirectToRoute('maintenance_index');
     }

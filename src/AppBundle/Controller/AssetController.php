@@ -6,7 +6,8 @@ use AppBundle\Entity\Asset;
 use AppBundle\Entity\Log;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Asset controller.
@@ -88,8 +89,14 @@ class AssetController extends Controller
         $status_form->handleRequest($request);
 
         if ($assign_form->isSubmitted() && $assign_form->isValid()) {
-            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset has been assigned to ' . $asset->getUser()->getFullname() . '(' . $asset->getUser()->getEmail() . ')',$this->getUser()));
+            $custodians = "";
             
+            foreach ($asset->getUsers() as $user)
+                $custodians = $custodians . $user->getFullname() . '('. $user->getEmail() .') ';
+            
+
+            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset has been assigned to ' . $custodians, $this->getUser()));
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('asset_show', array('id' => $asset->getId()));
@@ -122,14 +129,13 @@ class AssetController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset status was changed to '. $asset->getStatus()->getName() . " Reason: " . $status_form->get('comment')->getData(),$this->getUser()));
-
+            
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('asset_edit', array('id' => $asset->getId()));
+            return $this->redirectToRoute('asset_show', array('id' => $asset->getId()));
         }
 
-        return $this->render('generic_form_view.html.twig', array(
+        return $this->render('asset/edit.html.twig', array(
             'asset' => $asset,
             'form' => $editForm->createView(),
             'title' => 'Edit asset'
@@ -145,10 +151,25 @@ class AssetController extends Controller
     public function unassignAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $assets = $em->getRepository('AppBundle:Asset')->findByUser(null);
+        $assets = $em->getRepository('AppBundle:Asset')->findAssetsWithoutUser();
             
-        return $this->render('asset/index.html.twig', array(
+        return $this->render('asset/index_unassigned_list.html.twig', array(
             'assets' => $assets,
         ));
+    }
+
+    /**
+     * Deletes the selected Asset.
+     *
+     * @Route("/{id}/delete", name="asset_delete")
+     * @Method("GET")
+     */
+    public function deleteAction(Asset $asset)
+    {
+        $em = $this->getDoctrine()->getManager();
+            $em->remove($asset);
+            $em->flush();
+
+        return $this->redirectToRoute('asset_index');
     }
 }

@@ -2,11 +2,37 @@
 
 {% block body %}
 	<div class = "container">
-		<table>
+		<table class = "accountability-table">
 			<tr>
-				<td rowspan = "5">CPI Outsourcing</td>
-				<td rowspan = "3 pull-right">ASSET ACCOUNTABILITY</td>
+				<td colspan = "3">CPI Outsourcing</td>
+				<td colspan = "2">ASSET ACCOUNTABILITY</td>
 			</tr>
+			<tr>
+				<td>EMP NO.</td>
+				<td>NAME</td>
+				<td colspan = "2">POSITION</td>
+				<td>DATE HIRED</td>
+			</tr>
+			<tr>
+				<td>{{user.employeenumber}}</td>
+				<td>{{user.fullname}}</td>
+				<td colspan = "2">{{user.position}}</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>QTY</td>
+				<td colspan = "2">ITEM DESCRIPTION</td>
+				<td>ASSET TAG</td>
+				<td>REMARKS</td>
+			</tr>
+			{% for asset in user.assets %}
+				<tr>
+					<td>1</td>
+					<td colspan = "2">{{asset.description}}</td>
+					<td>{{ asset.code }}</td>
+					<td></td>
+				</tr>
+			{% endfor %}
 		</table>
 	</div>
 {% endblock %}

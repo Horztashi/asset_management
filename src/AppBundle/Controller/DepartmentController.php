@@ -52,8 +52,8 @@ class DepartmentController extends Controller
      */
     public function showAction(Department $department)
     {
-        return $this->render('department/index.html.twig', array(
-            'assets' => $department->getAssets(),
+        return $this->render('user/index.html.twig', array(
+            'users' => $department->getUsers(),
             'item_name' => $department->getName(),
             'item_type' => "Department"
         ));

@@ -79,7 +79,7 @@ class User extends BaseUser
     private $department;
 
     /**
-     * @ORM\OneToMany(targetEntity="Asset", mappedBy="user")
+     * @ORM\ManyToMany(targetEntity="Asset", inversedBy="users")
      */
     private $assets;
 
@@ -299,6 +299,30 @@ class User extends BaseUser
     }
 
     /**
+     * Set position
+     *
+     * @param string $position
+     *
+     * @return User
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return string
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
      * Add asset
      *
      * @param \AppBundle\Entity\Asset $asset
@@ -330,29 +354,5 @@ class User extends BaseUser
     public function getAssets()
     {
         return $this->assets;
-    }
-
-    /**
-     * Set position
-     *
-     * @param string $position
-     *
-     * @return User
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * Get position
-     *
-     * @return string
-     */
-    public function getPosition()
-    {
-        return $this->position;
     }
 }

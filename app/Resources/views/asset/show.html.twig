@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% form_theme assign_form 'jquery.collection.html.twig' %}
 
 {% block body %}
 
@@ -9,6 +10,7 @@
                 <div class = "btn-group pull-right">
                     {% if is_granted('ROLE_ADMIN') %}
                     <a class = "btn btn-primary" href="{{ path('asset_edit', { 'id': asset.id }) }}">Edit Asset</a>
+                    <a class = "btn btn-primary"  href="{{ path('asset_delete',{id:asset.id})}}">Delete Asset</a>
                     <a class = "btn btn-primary"  data-toggle = "modal" data-target = "#assignModal">Assign Asset</a>
                     <a class = "btn btn-primary"  data-toggle = "modal" data-target = "#logModal">Asset History</a>
                     {% endif %}
@@ -23,14 +25,8 @@
             <div class = "col-sm-12 text-center"><h6>{{asset.description}}</h6><i></i></div>
         </div>
         <div class = "row">
-            <div class = "col-sm-3"><label>Custodian</label></div>
-            <div class = "col-sm-3">
-                {% if asset.user %}
-                    <a href="{{ path('user_show',{id:asset.user.id}) }}">{{asset.user.fullname}}</a>
-                {% else %}
-                    <span class = "text-muted"> NOT ASSIGNED</span>
-                {% endif %}
-            </div>
+            <div class = "col-sm-3"><label>Critical</label></div>
+            <div class = "col-sm-3">{% if asset.iscritical %}YES{% else %}NO{% endif %}</div>
             <div class = "col-sm-3"><label>Location</label></div>
             <div class = "col-sm-3">
                 {% if asset.location %}
@@ -54,7 +50,7 @@
                 {% if asset.model %}                
                     {{asset.model.name}} ({{asset.model.brand.name}})
                 {% else %}
-                    <span class = "text-muted"> NOT ASSIGNED</span>
+                    <span class = "text-muted">NOT ASSIGNED</span>
                 {% endif %}
             </div>
         </div>
@@ -70,12 +66,6 @@
             <div class = "col-sm-3"><label>Asset Type</label></div>
             <div class = "col-sm-3">{% if asset.ispersonal %}PERSONAL{% else %}GENERAL{% endif %}</div>
         </div>
-        {% if is_granted('ROLE_ADMIN') %}
-            <div class = "row">
-                <div class = "col-sm-3"><label>Critical</label></div>
-                <div class = "col-sm-3">{% if asset.iscritical %}YES{% else %}NO{% endif %}</div>
-            </div>
-        {% endif %}
 
         {% if is_granted('ROLE_ADMIN') %}
             <div class = "row">
@@ -106,9 +96,24 @@
                 <div class = "col-sm-3">{{asset.warrantyend|date('F d, Y')}}</div>
             </div>
         {% endif %}
+        <div class = "row">
+            <div class = "col-sm-12 text-center"><h4>Custodians</h4></div>
+        </div>
+        {% for user in asset.users %}
+            <div class = "row">
+                <div class = "col-md-3"><a href = " {{ path('user_show',{id: user.id}) }}">{{user.employeenumber}}</a></div>
+                <div class = "col-md-5">{{user.fullname}}</div>
+                <div class = "col-md-4">{% if user.enabled %}
+                                            <span class = "label label-success">ACTIVE</span>
+                                        {% else %}
+                                            <span class = "label label-danger">NOT ACTIVE</span>
+                                        {% endif %}
+                </div>
+            </div>
+        {% endfor %}
     </div>
 
-    <div class = "modal" id = "assignModal" tabindex="-1" role = "dialog">
+     <div class = "modal" id = "assignModal" tabindex="-1" role = "dialog">
         <div class = "modal-dialog" role = "document">
             <div class = "modal-content">
                 <div class = "modal-header">
@@ -122,7 +127,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 
     <div class = "modal" id = "statusModal" tabindex="-1" role = "dialog">
         <div class = "modal-dialog" role = "document">
@@ -162,5 +167,19 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $('.user_collection').collection({ allow_duplicate: false,
+                                            allow_up: false,
+                                            allow_down: false,
+                                            up: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-chevron-up"></i></a>',
+                                            down: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-chevron-down"></i></a>',
+                                            add: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-plus"></i></a>',
+                                            remove: '<a href="#" class="btn btn-danger with-margin"><i class="fas fa-trash-alt"></i></a>',
+                                            duplicate: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-copy"></i></a>'
+        });
+    </script>
 {% endblock %}

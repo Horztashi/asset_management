@@ -10,4 +10,18 @@ namespace AppBundle\Repository;
  */
 class AssetRepository extends \Doctrine\ORM\EntityRepository
 {
+
+	public function findAssetsWithoutUser(){
+	
+		$query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT a , COUNT(u) AS userCount
+                 FROM AppBundle:Asset a
+				 LEFT JOIN a.users u
+				 GROUP BY a.id
+				 HAVING userCount = 0
+				');
+
+		return $query->getResult();
+	}
 }

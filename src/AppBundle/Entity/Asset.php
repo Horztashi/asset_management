@@ -24,7 +24,7 @@ class Asset
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=20)
+     * @ORM\Column(name="code", type="string", length=20, unique=true)
      */
     private $code;
 
@@ -42,10 +42,9 @@ class Asset
     private $location;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="assets")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="assets")
      */
-    private $user;
+    private $users;
 
     /**
      * @ORM\ManyToOne(targetEntity="Vendor", inversedBy="assets")
@@ -533,29 +532,6 @@ class Asset
         return $this->model;
     }
 
-    /**
-     * Set user
-     *
-     * @param \AppBundle\Entity\User $user
-     *
-     * @return Asset
-     */
-    public function setUser(\AppBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
 
     /**
      * Set isCritical
@@ -685,5 +661,39 @@ class Asset
     public function getMaintenance()
     {
         return $this->maintenance;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Asset
+     */
+    public function addUser(\AppBundle\Entity\User $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\User $user
+     */
+    public function removeUser(\AppBundle\Entity\User $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

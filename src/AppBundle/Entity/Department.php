@@ -30,6 +30,11 @@ class Department
     private $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="User", mappedBy="department")
+     */
+    private $users;    
+
+    /**
      * Get id
      *
      * @return int
@@ -84,37 +89,38 @@ class Department
         $this->assets = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
     /**
-     * Add asset
+     * Add user
      *
-     * @param \AppBundle\Entity\Asset $asset
+     * @param \AppBundle\Entity\User $user
      *
      * @return Department
      */
-    public function addAsset(\AppBundle\Entity\Asset $asset)
+    public function addUser(\AppBundle\Entity\User $user)
     {
-        $this->assets[] = $asset;
+        $this->users[] = $user;
 
         return $this;
     }
 
     /**
-     * Remove asset
+     * Remove user
      *
-     * @param \AppBundle\Entity\Asset $asset
+     * @param \AppBundle\Entity\User $user
      */
-    public function removeAsset(\AppBundle\Entity\Asset $asset)
+    public function removeUser(\AppBundle\Entity\User $user)
     {
-        $this->assets->removeElement($asset);
+        $this->users->removeElement($user);
     }
 
     /**
-     * Get assets
+     * Get users
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getAssets()
+    public function getUsers()
     {
-        return $this->assets;
+        return $this->users;
     }
 }

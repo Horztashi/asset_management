@@ -29,7 +29,7 @@ class DefaultController extends Controller
         $noncriticalAssets  = count($em->getRepository('AppBundle:Asset')->findByIsCritical(false));
 
         // Assigned vs Unassigned Assets
-        $unassignedAssets   = count($em->getRepository('AppBundle:Asset')->findByUser(null));
+        $unassignedAssets   = count($em->getRepository('AppBundle:Asset')->findAssetsWithoutUser());
         $assignedAssets     = $allAssets - $unassignedAssets;
 
         // Asset Per Category
