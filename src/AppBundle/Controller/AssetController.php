@@ -88,22 +88,13 @@ class AssetController extends Controller
         $assign_form->handleRequest($request);
         $status_form->handleRequest($request);
 
-        $oldAsset = $this->getDoctrine()->getManager()->getRepository('AppBundle:Asset')->findOneById($asset->getId());
-
         if ($assign_form->isSubmitted() && $assign_form->isValid()) {
-            
+            $custodians = "";
 
-/*            foreach($asset->getUsers() as $user)
-                if(!$oldAsset->getUsers()->contains($user))
-                    $this->getDoctrine()->getManager()->persist(new Log($asset,
-                        "Asset has been assigned to " . $user->getFullname()
-                        ,$this->getUser()));
+            foreach($asset->getUsers() as $user)
+                $custodians = $custodians . " ," . $user->getFullname() . "(". $user->getEmail() .")";
 
-            foreach($oldAsset->getUsers() as $user)
-                if(!$asset->getUsers()->contains($user))
-                    $this->getDoctrine()->getManager()->persist(new Log($asset,
-                        "Asset has been removed from " . $user->getFullname()
-                        ,$this->getUser()));*/
+            $this->getDoctrine()->getManager()->persist(new Log($asset,'Asset  was assigned to '. $custodians . ".",$this->getUser()));
 
             $this->getDoctrine()->getManager()->flush();
 
