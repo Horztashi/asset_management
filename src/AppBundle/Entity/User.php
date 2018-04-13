@@ -73,17 +73,20 @@ class User extends BaseUser
     private $position;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Department", inversedBy="assets")
+     * @ORM\ManyToOne(targetEntity="Department", inversedBy="users")
      * @ORM\JoinColumn(name="department_id", referencedColumnName="id", nullable=true)
      */
     private $department;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Asset", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Asset", mappedBy="users")
      */
     private $assets;
 
-
+    /**
+     * @ORM\OneToMany(targetEntity="Log", mappedBy="user")
+     */
+    private $logs;    
 
     /**
      * Get id
@@ -273,6 +276,15 @@ class User extends BaseUser
         return $this->lastname . ", " . $this->firstname;
     }
 
+    /**
+     * Get formLabel
+     *
+     * @return string
+     */
+    public function getFormLabel()
+    {
+        return $this->getFullname() . " (" . $this->getEmployeenumber() . ")";
+    }
 
     /**
      * Set department
@@ -332,7 +344,7 @@ class User extends BaseUser
     public function addAsset(\AppBundle\Entity\Asset $asset)
     {
         $this->assets[] = $asset;
-
+        $asset->addUser($this);
         return $this;
     }
 
@@ -344,6 +356,7 @@ class User extends BaseUser
     public function removeAsset(\AppBundle\Entity\Asset $asset)
     {
         $this->assets->removeElement($asset);
+        $asset->removeUser($this);
     }
 
     /**

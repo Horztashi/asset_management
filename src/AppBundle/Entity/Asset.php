@@ -42,11 +42,6 @@ class Asset
     private $location;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="assets")
-     */
-    private $users;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Vendor", inversedBy="assets")
      * @ORM\JoinColumn(name="vendor_id", referencedColumnName="id")
      */
@@ -140,9 +135,15 @@ class Asset
     private $logs;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Maintenance", inversedBy="asset")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="assets")
+     * @ORM\JoinTable(name="asset_user")
      */
-    private $maintenance;
+    private $users;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Maintenance", mappedBy="assets")
+     */
+    private $maintenances;
 
     /**
      * Get id
@@ -232,6 +233,10 @@ class Asset
     public function __construct()
     {
         $this->logs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->setWarrantystart(new \DateTime());
+        $this->setWarrantyend(new \DateTime());
+        $this->setServicedate(new \DateTime());
+        $this->setPurchasedate(new \DateTime());
     }
 
     /**
@@ -630,6 +635,16 @@ class Asset
     }
 
     /**
+     * Get formLabel
+     *
+     * @return string
+     */
+    public function getFormLabel()
+    {
+        return $this->getDescription() . " (" . $this->getCode() . ")";
+    }
+
+    /**
      * Add maintenance
      *
      * @param \AppBundle\Entity\Maintenance $maintenance
@@ -658,9 +673,9 @@ class Asset
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMaintenance()
+    public function getMaintenances()
     {
-        return $this->maintenance;
+        return $this->maintenances;
     }
 
     /**
@@ -673,7 +688,6 @@ class Asset
     public function addUser(\AppBundle\Entity\User $user)
     {
         $this->users[] = $user;
-
         return $this;
     }
 

@@ -22,12 +22,13 @@ class Maintenance
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Asset", inversedBy="maintenance")
+     * @ORM\ManyToMany(targetEntity="Asset", inversedBy="maintenances")
+     * @ORM\JoinTable(name="asset_maintenance")
      */
     private $assets;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Vendor", inversedBy="maintenance")
+     * @ORM\ManyToOne(targetEntity="Vendor", inversedBy="maintenances")
      * @ORM\JoinColumn(name="vendor_id", referencedColumnName="id")
      */
     private $vendor;
@@ -182,7 +183,7 @@ class Maintenance
     public function addAsset(\AppBundle\Entity\Asset $asset)
     {
         $this->assets[] = $asset;
-
+        $asset->addMaintenance($this);
         return $this;
     }
 
@@ -194,6 +195,7 @@ class Maintenance
     public function removeAsset(\AppBundle\Entity\Asset $asset)
     {
         $this->assets->removeElement($asset);
+        $asset->removeMaintenance($this);
     }
 
     /**

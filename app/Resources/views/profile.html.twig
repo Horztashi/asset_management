@@ -1,14 +1,27 @@
 {% extends 'base.html.twig' %}
+{% form_theme assign_form 'jquery.collection.html.twig' %}
 
 {% block body %}
     <div class = "container">
         <div class = "row title">
             <div class = "col-md-6"><h3>Profile</h3></div>
-            <div class = "col-md-6"></div>
+            <div class = "col-md-6">
+                <div class = "btn-group pull-right">
+                    <a class = "btn btn-primary" href="{{ path('user_edit', {id:user.id}) }}">Edit User</a>
+                    <a class = "btn btn-primary" data-toggle = "modal" data-target = "#assignModal">Assign Asset</a>
+                    <a class = "btn btn-primary" href="{{ path('user_status', {id:user.id}) }}">Set to Resigned</a>
+                </div>
+            </div>
         </div>
         <div class = "row">
             <div class = "col-md-3"><label>Employee Number</label></div>
-            <div class = "col-md-3">{{ user.employeenumber }}</div>
+            <div class = "col-md-3">{{ user.employeenumber }}
+                                    {% if user.enabled %}
+                                        <span class = "label label-success">active</span>
+                                    {% else %}
+                                        <span class = "label label-danger">inactive</span>
+                                    {% endif %}
+                                </div>
             <div class = "col-md-3"><label>Department</label></div>
             <div class = "col-md-3">{{ user.department ? user.department.name : "Not Assigned" }}</div>
         </div>
@@ -52,4 +65,33 @@
                 </div>
             {% endif %}
     </div>
+
+     <div class = "modal" id = "assignModal" tabindex="-1" role = "dialog">
+        <div class = "modal-dialog" role = "document">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title">Assign Assets</h5>
+                </div>
+                <div class = "modal-body">
+                    {{form_start(assign_form)}}
+                    {{form_widget(assign_form)}}
+                    <input class = "btn btn-block btn-success" type="submit" value="Assign" />
+                    {{form_end(assign_form)}}
+                </div>
+            </div>
+        </div>
+    </div> 
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        $('.asset_collection').collection({ allow_duplicate: false,
+                                            allow_up: false,
+                                            allow_down: false,
+                                            up: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-chevron-up"></i></a>',
+                                            down: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-chevron-down"></i></a>',
+                                            add: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-plus"></i></a>',
+                                            remove: '<a href="#" class="btn btn-danger with-margin"><i class="fas fa-trash-alt"></i></a>',
+                                            duplicate: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-copy"></i></a>'
+        });
+    </script>
 {% endblock %}

@@ -64,12 +64,22 @@ class UserController extends Controller
      * Finds and displays a user entity.
      *
      * @Route("/{id}", name="user_show")
-     * @Method("GET")
+     * @Method({"GET","POST"})
      */
-    public function showAction(User $user)
+    public function showAction(User $user, Request $request)
     {
+        $assign_form = $this->createForm('AppBundle\Form\UserAssetAssignType', $user);
+        $assign_form->handleRequest($request);
+
+        if ($assign_form->isSubmitted() && $assign_form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+        }
+
         return $this->render('profile.html.twig', array(
             'user' => $user,
+            'assign_form' => $assign_form->createView(),
         ));
     }
 
@@ -108,5 +118,18 @@ class UserController extends Controller
             'category' => $user,
             'form' => $editForm->createView(),
         ));
+    }
+
+    /**
+     *
+     * @Route("/{id}/status", name="user_status")
+     * @Method({"GET", "POST"})
+     */
+    public function statusAction(Request $request, User $user)
+    {
+        $user->setEnabled(!$user->isEnabled());
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('user_show', array('id' => $user->getId()));
     }
 }

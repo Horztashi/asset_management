@@ -44,11 +44,7 @@
         	<div class = "row">
         		<div class = "col-md-3"><a href = "{{ path('asset_show', {id: asset.id})}}">{{asset.code}}</a></div>
         		<div class = "col-md-3">{{asset.description}}</div>
-        		<div class = "col-md-3">
-                    {% if asset.user %}
-                        <a href = "{{ path('user_show', {id: asset.user.id})}}">{{asset.user.fullname}}</a>
-                    {% endif %}
-                </div>
+        		<div class = "col-md-3"></div>
         		<div class = "col-md-3">{{asset.status.name}}</div>
         	</div>
         {% endfor %}

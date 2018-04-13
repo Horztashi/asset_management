@@ -35,6 +35,11 @@ class Vendor
     private $assets;
 
     /**
+     * @ORM\OneToMany(targetEntity="Maintenance", mappedBy="vendor")
+     */
+    private $maintenances;
+
+    /**
      * Get id
      *
      * @return int
