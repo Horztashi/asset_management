@@ -2,14 +2,26 @@
 {% form_theme assign_form 'jquery.collection.html.twig' %}
 
 {% block body %}
+
     <div class = "container">
+        {% if e_message is defined %}
+            <div class = "row">
+                <div class = "alert alert-danger alert-dismissible" role = "alert">{{e_message}}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+            </div>
+        {% endif %}
         <div class = "row title">
             <div class = "col-md-6"><h3>Profile</h3></div>
             <div class = "col-md-6">
                 <div class = "btn-group pull-right">
                     <a class = "btn btn-primary" href="{{ path('user_edit', {id:user.id}) }}">Edit User</a>
                     <a class = "btn btn-primary" data-toggle = "modal" data-target = "#assignModal">Assign Asset</a>
-                    <a class = "btn btn-primary" href="{{ path('user_status', {id:user.id}) }}">Set to Resigned</a>
+                    <a class = "btn btn-primary" href="{{ path('user_status', {id:user.id}) }}">
+                        {% if user.enabled %}
+                            Set to Resigned
+                        {% else %}
+                            Set to Active
+                        {% endif %}
+                    </a>
                 </div>
             </div>
         </div>
@@ -87,6 +99,9 @@
         $('.asset_collection').collection({ allow_duplicate: false,
                                             allow_up: false,
                                             allow_down: false,
+                                            max: 999,
+                                            position_field_selector: '.my-position',
+                                            add_at_the_end: true,
                                             up: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-chevron-up"></i></a>',
                                             down: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-chevron-down"></i></a>',
                                             add: '<a href="#" class="btn btn-primary with-margin"><i class="fas fa-plus"></i></a>',

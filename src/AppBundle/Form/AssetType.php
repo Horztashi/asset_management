@@ -28,7 +28,7 @@ class AssetType extends AbstractType
                 ->add('ponumber', TextType::class)
                 ->add('vendor', EntityType::class, array('class'=>'AppBundle:Vendor','choice_label'=>'name'))
                 ->add('model', EntityType::class, array('class'=>'AppBundle:Model','choice_label'=>'name'))
-                ->add('price', MoneyType::class, array('divisor' => 100, 'currency' => 'PHP'))
+                ->add('price', MoneyType::class, array('currency' => 'PHP'))
                 ->add('manufacturerserial', TextType::class)
                 ->add('warrantystart', DateType::class, array('widget'=>'single_text'))
                 ->add('warrantyend', DateType::class, array('widget'=>'single_text'))

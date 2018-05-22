@@ -182,8 +182,10 @@ class Maintenance
      */
     public function addAsset(\AppBundle\Entity\Asset $asset)
     {
-        $this->assets[] = $asset;
-        $asset->addMaintenance($this);
+        if(!$this->assets->contains($asset)){
+            $this->assets[] = $asset;
+            $asset->addMaintenance($this);
+        }
         return $this;
     }
 
@@ -194,8 +196,10 @@ class Maintenance
      */
     public function removeAsset(\AppBundle\Entity\Asset $asset)
     {
-        $this->assets->removeElement($asset);
-        $asset->removeMaintenance($this);
+        if($this->assets->contains($asset)){
+            $this->assets->removeElement($asset);
+            $asset->removeMaintenance($this);
+        }
     }
 
     /**

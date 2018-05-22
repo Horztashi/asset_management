@@ -39,7 +39,7 @@
         <div class = "row">
             <div class = "col-sm-3"><label>Category</label></div>
             <div class = "col-sm-3">
-                {% if asset.category %}                
+                {% if asset.category %}
                     {{asset.category.name}}
                 {% else %}
                     <span class = "text-muted"> NOT ASSIGNED</span>
@@ -73,7 +73,13 @@
             </div>
             <div class = "row">
                 <div class = "col-sm-3"><label>Vendor</label></div>
-                <div class = "col-sm-3">{{asset.vendor.name}}</div>
+                <div class = "col-sm-3">
+                {% if asset.vendor %}   
+                    {{asset.vendor.name}}
+                {% else %}
+                    <span class = "text-muted"> NOT ASSIGNED</span>
+                {% endif %}
+                </div>
                 <div class = "col-sm-3"><label>Price</label></div>
                 <div class = "col-sm-3">PHP {{asset.price | number_format(2,'.',',')}}</div>
             </div>
@@ -85,15 +91,39 @@
             </div>
             <div class = "row">
                 <div class = "col-sm-3"><label>Purchase Date</label></div>
-                <div class = "col-sm-3">{{asset.purchasedate|date('F d, Y')}}</div>
+                <div class = "col-sm-3">
+                    {% if asset.purchasedate %}
+                        {{asset.purchasedate|date('F d, Y')}}
+                    {% else %}
+                        <span class = "text-muted"> NOT ASSIGNED</span>
+                    {% endif %}
+                </div>
                 <div class = "col-sm-3"><label>Service Date</label></div>
-                <div class = "col-sm-3">{{asset.servicedate|date('F d, Y')}}</div>
+                <div class = "col-sm-3">
+                    {% if asset.servicedate %}
+                        {{asset.servicedate|date('F d, Y')}}
+                    {% else %}
+                        <span class = "text-muted"> NOT ASSIGNED</span>
+                    {% endif %}
+                </div>
             </div>
             <div class = "row">
                 <div class = "col-sm-3"><label>Warranty Start</label></div>
-                <div class = "col-sm-3">{{asset.warrantystart|date('F d, Y')}}</div>
+                <div class = "col-sm-3">
+                    {% if asset.warrantystart %}
+                        {{asset.warrantystart|date('F d, Y')}}
+                    {% else %}
+                        <span class = "text-muted"> NOT ASSIGNED</span>
+                    {% endif %}
+                </div>
                 <div class = "col-sm-3"><label>Warranty End</label></div>
-                <div class = "col-sm-3">{{asset.warrantyend|date('F d, Y')}}</div>
+                <div class = "col-sm-3">
+                    {% if asset.warrantyend %}
+                        {{asset.warrantyend|date('F d, Y')}}
+                    {% else %}
+                        <span class = "text-muted"> NOT ASSIGNED</span>
+                    {% endif %}
+                </div>
             </div>
         {% endif %}
         <div class = "row">
@@ -103,11 +133,12 @@
             <div class = "row">
                 <div class = "col-md-3"><a href = " {{ path('user_show',{id: user.id}) }}">{{user.employeenumber}}</a></div>
                 <div class = "col-md-5">{{user.fullname}}</div>
-                <div class = "col-md-4">{% if user.enabled %}
-                                            <span class = "label label-success">ACTIVE</span>
-                                        {% else %}
-                                            <span class = "label label-danger">NOT ACTIVE</span>
-                                        {% endif %}
+                <div class = "col-md-4">
+                    {% if user.enabled %}
+                        <span class = "label label-success">ACTIVE</span>
+                    {% else %}
+                        <span class = "label label-danger">NOT ACTIVE</span>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}

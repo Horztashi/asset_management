@@ -343,8 +343,10 @@ class User extends BaseUser
      */
     public function addAsset(\AppBundle\Entity\Asset $asset)
     {
-        $this->assets[] = $asset;
-        $asset->addUser($this);
+        if(!$this->assets->contains($asset)){
+            $this->assets[] = $asset;
+            $asset->addUser($this);
+        }
         return $this;
     }
 
@@ -355,8 +357,10 @@ class User extends BaseUser
      */
     public function removeAsset(\AppBundle\Entity\Asset $asset)
     {
-        $this->assets->removeElement($asset);
-        $asset->removeUser($this);
+        if($this->assets->contains($asset)){
+            $this->assets->removeElement($asset);
+            $asset->removeUser($this);
+        }
     }
 
     /**

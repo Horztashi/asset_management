@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -127,6 +128,10 @@ class UserController extends Controller
      */
     public function statusAction(Request $request, User $user)
     {
+
+        if($user->isEnabled() && $user->getAssets()->count() > 1)
+            $this->redirectToRoute('user_show', array('id' => $user->getId(),'e_message'=>'User cannot be resigned as there are assets assigned to it.'));
+
         $user->setEnabled(!$user->isEnabled());
         $this->getDoctrine()->getManager()->flush();
 

@@ -653,7 +653,10 @@ class Asset
      */
     public function addMaintenance(\AppBundle\Entity\Maintenance $maintenance)
     {
-        $this->maintenance[] = $maintenance;
+        if(!$this->maintenance->contains($maintenance))
+        {
+            $this->maintenance[] = $maintenance;
+        }
 
         return $this;
     }
@@ -665,7 +668,10 @@ class Asset
      */
     public function removeMaintenance(\AppBundle\Entity\Maintenance $maintenance)
     {
-        $this->maintenance->removeElement($maintenance);
+        if($this->maintenance->contains($maintenance))
+        {
+            $this->maintenance->removeElement($maintenance);
+        }
     }
 
     /**
@@ -687,7 +693,10 @@ class Asset
      */
     public function addUser(\AppBundle\Entity\User $user)
     {
-        $this->users[] = $user;
+        if(!$this->users->contains($user))
+        {
+            $this->users[] = $user;
+        }
         return $this;
     }
 
@@ -698,7 +707,10 @@ class Asset
      */
     public function removeUser(\AppBundle\Entity\User $user)
     {
-        $this->users->removeElement($user);
+        if($this->users->contains($user))
+        {
+            $this->users->removeElement($user);
+        }
     }
 
     /**

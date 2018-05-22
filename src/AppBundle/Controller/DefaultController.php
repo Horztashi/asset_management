@@ -87,10 +87,22 @@ class DefaultController extends Controller
     /**
      * @Route("/profile", name="profile")
      */
-    public function profileAction()
+    public function profileAction(Request $request)
     {
+        $assign_form = $this->createForm('AppBundle\Form\UserAssetAssignType', $this->getUser());
+        $assign_form->handleRequest($request);
+
+        if ($assign_form->isSubmitted() && $assign_form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('profile');
+        }
+
         $em = $this->getDoctrine()->getManager();
-        return $this->render('profile.html.twig', array('user'=>$this->getUser()));
+        return $this->render('profile.html.twig', 
+                                array(  'user'=>$this->getUser(),
+                                        'assign_form' => $assign_form->createView(),
+                                ));
     }
 
     /**
