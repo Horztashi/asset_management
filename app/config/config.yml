@@ -79,4 +79,18 @@ fos_user:
     from_email:
         address: '%mailer_user%'
         sender_name: '%mailer_user%'
+# twig Configuration
+twig:
+    form_themes:
+        - 'TetranzSelect2EntityBundle:Form:fields.html.twig'
 
+# tetranz select2 Configuration
+tetranz_select2_entity:
+    minimum_input_length: 2
+    page_limit: 8
+    allow_clear: true
+    delay: 500
+    language: en
+    cache: false
+    cache_timeout: 0
+    scroll: true

@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
-
+use Tetranz\Select2EntityBundle\Form\Type\Select2EntityType;
 
 class UserAssetAssignType extends AbstractType
 {
@@ -17,23 +17,22 @@ class UserAssetAssignType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('assets', CollectionType::class, array(
-                    'label' => 'Assets',
-                    'entry_type' => EntityType::class,
-                    'entry_options' => array(   'class'=>'AppBundle:Asset',
-                                                'label'=>false,
-                                                'choice_label'=>'formlabel',
-                                                'query_builder' => function (EntityRepository $er) {
-                                                                        return $er->createQueryBuilder('a')
-                                                                            ->orderBy('a.description, a.code', 'ASC');
-                                                                    }),
-                    'allow_delete' =>true,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true,
-                    'by_reference' => false,
-                    'attr'=> array('class'=>'asset_collection'),
-                ));
+        $builder->add('assets', Select2EntityType::class, [
+                    'multiple' => true,
+                    'remote_route' => 'api_asset_list',
+                    'class' => '\AppBundle\Entity\Asset',
+                    'primary_key' => 'id',
+                    'text_property' => 'code',
+                    'minimum_input_length' => 2,
+                    'page_limit' => 10,
+                    'allow_clear' => true,
+                    'delay' => 250,
+                    'cache' => true,
+                    'cache_timeout' => 60000, // if 'cache' is true
+                    'language' => 'en',
+                    'placeholder' => 'Select assigned assets',
+                    // 'object_manager' => $objectManager, // inject a custom object / entity manager 
+                ]);
     }
     
     /**

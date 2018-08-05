@@ -145,6 +145,11 @@ class Asset
      */
     private $maintenances;
 
+
+    public function __toString(){
+        return $this->getCode();
+    }
+
     /**
      * Get id
      *

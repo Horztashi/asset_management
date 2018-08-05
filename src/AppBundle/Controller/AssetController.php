@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Asset controller.
@@ -170,5 +171,29 @@ class AssetController extends Controller
             $em->flush();
 
         return $this->redirectToRoute('asset_index');
+    }
+
+    /**
+     * Lists all asset entities.
+     *
+     * @Route("/api/asset_list", name="api_asset_list")
+     * @Method("GET")
+     */
+    public function jsonAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $assets = $em->getRepository('AppBundle:Asset')->findAll();
+
+        $assetjson = array();
+        foreach($assets as $asset)
+            $assetsjson[] = array('id' => $asset->getId(), 'code'=> $asset->getCode());
+
+
+
+        $response = new Response();
+//        $response->setContent(json_encode($assetsjson));
+        $response->setContent('[{id:1,code:"LOL"}]');
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 }
