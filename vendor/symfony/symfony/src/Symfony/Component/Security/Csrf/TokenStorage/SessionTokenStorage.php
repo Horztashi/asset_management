@@ -19,7 +19,7 @@ use Symfony\Component\Security\Csrf\Exception\TokenNotFoundException;
  *
  * @author Bernhard Schussek <bschussek@gmail.com>
  */
-class SessionTokenStorage implements ClearableTokenStorageInterface
+class SessionTokenStorage implements TokenStorageInterface
 {
     /**
      * The namespace used to store values in the session.
@@ -91,17 +91,5 @@ class SessionTokenStorage implements ClearableTokenStorageInterface
         }
 
         return $this->session->remove($this->namespace.'/'.$tokenId);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function clear()
-    {
-        foreach (array_keys($this->session->all()) as $key) {
-            if (0 === strpos($key, $this->namespace.'/')) {
-                $this->session->remove($key);
-            }
-        }
     }
 }

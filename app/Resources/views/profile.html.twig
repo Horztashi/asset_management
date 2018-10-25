@@ -78,21 +78,8 @@
             {% endif %}
     </div>
 
-     <div class = "modal" id = "assignModal" tabindex="-1" role = "dialog">
-        <div class = "modal-dialog" role = "document">
-            <div class = "modal-content">
-                <div class = "modal-header">
-                    <h5 class = "modal-title">Assign Assets</h5>
-                </div>
-                <div class = "modal-body">
-                    {{form_start(assign_form)}}
-                    {{form_widget(assign_form)}}
-                    <input class = "btn btn-block btn-success" type="submit" value="Assign" />
-                    {{form_end(assign_form)}}
-                </div>
-            </div>
-        </div>
-    </div> 
+    {{form(assign_form)}}
+
 {% endblock %}
 {% block javascripts %}
     <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>

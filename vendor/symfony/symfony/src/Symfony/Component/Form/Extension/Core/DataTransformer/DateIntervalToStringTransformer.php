@@ -23,17 +23,20 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 class DateIntervalToStringTransformer implements DataTransformerInterface
 {
     private $format;
+    private $parseSigned;
 
     /**
      * Transforms a \DateInterval instance to a string.
      *
      * @see \DateInterval::format() for supported formats
      *
-     * @param string $format The date format
+     * @param string $format      The date format
+     * @param bool   $parseSigned Whether to parse as a signed interval
      */
-    public function __construct($format = 'P%yY%mM%dDT%hH%iM%sS')
+    public function __construct($format = 'P%yY%mM%dDT%hH%iM%sS', $parseSigned = false)
     {
         $this->format = $format;
+        $this->parseSigned = $parseSigned;
     }
 
     /**

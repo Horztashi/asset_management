@@ -14,15 +14,8 @@ namespace Symfony\Component\Security\Tests\Http\Firewall;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler;
-use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
 use Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener;
-use Symfony\Component\Security\Http\HttpUtils;
-use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy;
+use Symfony\Component\Security\Core\Security;
 
 class UsernamePasswordFormAuthenticationListenerTest extends TestCase
 {
@@ -72,31 +65,6 @@ class UsernamePasswordFormAuthenticationListenerTest extends TestCase
             ->method('getRequest')
             ->will($this->returnValue($request))
         ;
-
-        $listener->handle($event);
-    }
-
-    /**
-     * @expectedException \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     * @expectedExceptionMessage The key "_username" must be a string, "array" given.
-     */
-    public function testHandleNonStringUsername()
-    {
-        $request = Request::create('/login_check', 'POST', array('_username' => array()));
-        $request->setSession($this->getMockBuilder('Symfony\Component\HttpFoundation\Session\SessionInterface')->getMock());
-
-        $listener = new UsernamePasswordFormAuthenticationListener(
-            new TokenStorage(),
-            $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface')->getMock(),
-            new SessionAuthenticationStrategy(SessionAuthenticationStrategy::NONE),
-            $httpUtils = new HttpUtils(),
-            'foo',
-            new DefaultAuthenticationSuccessHandler($httpUtils),
-            new DefaultAuthenticationFailureHandler($this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->getMock(), $httpUtils),
-            array('require_previous_session' => false)
-        );
-
-        $event = new GetResponseEvent($this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->getMock(), $request, HttpKernelInterface::MASTER_REQUEST);
 
         $listener->handle($event);
     }

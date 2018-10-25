@@ -14,6 +14,7 @@ namespace Symfony\Bundle\SecurityBundle\DependencyInjection\Security\UserProvide
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * InMemoryFactory creates services for the memory provider.
@@ -26,13 +27,17 @@ class InMemoryFactory implements UserProviderFactoryInterface
     public function create(ContainerBuilder $container, $id, $config)
     {
         $definition = $container->setDefinition($id, new ChildDefinition('security.user.provider.in_memory'));
-        $users = array();
 
         foreach ($config['users'] as $username => $user) {
-            $users[$username] = array('password' => (string) $user['password'], 'roles' => $user['roles']);
-        }
+            $userId = $id.'_'.$username;
 
-        $definition->addArgument($users);
+            $container
+                ->setDefinition($userId, new ChildDefinition('security.user.provider.in_memory.user'))
+                ->setArguments(array($username, (string) $user['password'], $user['roles']))
+            ;
+
+            $definition->addMethodCall('createUser', array(new Reference($userId)));
+        }
     }
 
     public function getKey()

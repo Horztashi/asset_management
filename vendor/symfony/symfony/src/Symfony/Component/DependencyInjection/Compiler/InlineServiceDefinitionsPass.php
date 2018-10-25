@@ -13,7 +13,6 @@ namespace Symfony\Component\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -23,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class InlineServiceDefinitionsPass extends AbstractRecursivePass implements RepeatablePassInterface
 {
-    private $cloningIds = array();
+    private $repeatedPass;
     private $inlinedServiceIds = array();
 
     /**
@@ -31,7 +30,7 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
      */
     public function setRepeatedPass(RepeatedPass $repeatedPass)
     {
-        // no-op for BC
+        $this->repeatedPass = $repeatedPass;
     }
 
     /**
@@ -39,10 +38,14 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
      *
      * The key is the inlined service id and its value is the list of services it was inlined into.
      *
+     * @deprecated since version 3.4, to be removed in 4.0.
+     *
      * @return array
      */
     public function getInlinedServiceIds()
     {
+        @trigger_error('Calling InlineServiceDefinitionsPass::getInlinedServiceIds() is deprecated since Symfony 3.4 and will be removed in 4.0.', E_USER_DEPRECATED);
+
         return $this->inlinedServiceIds;
     }
 
@@ -55,44 +58,18 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
             // Reference found in ArgumentInterface::getValues() are not inlineable
             return $value;
         }
+        if ($value instanceof Reference && $this->container->hasDefinition($id = (string) $value)) {
+            $definition = $this->container->getDefinition($id);
 
-        if ($value instanceof Definition && $this->cloningIds) {
-            if ($value->isShared()) {
-                return $value;
+            if ($this->isInlineableDefinition($id, $definition, $this->container->getCompiler()->getServiceReferenceGraph())) {
+                $this->container->log($this, sprintf('Inlined service "%s" to "%s".', $id, $this->currentId));
+                $this->inlinedServiceIds[$id][] = $this->currentId;
+
+                return $definition->isShared() ? $definition : clone $definition;
             }
-            $value = clone $value;
         }
 
-        if (!$value instanceof Reference || !$this->container->hasDefinition($id = (string) $value)) {
-            return parent::processValue($value, $isRoot);
-        }
-
-        $definition = $this->container->getDefinition($id);
-
-        if (!$this->isInlineableDefinition($id, $definition, $this->container->getCompiler()->getServiceReferenceGraph())) {
-            return $value;
-        }
-
-        $this->container->log($this, sprintf('Inlined service "%s" to "%s".', $id, $this->currentId));
-        $this->inlinedServiceIds[$id][] = $this->currentId;
-
-        if ($definition->isShared()) {
-            return $definition;
-        }
-
-        if (isset($this->cloningIds[$id])) {
-            $ids = array_keys($this->cloningIds);
-            $ids[] = $id;
-
-            throw new ServiceCircularReferenceException($id, array_slice($ids, array_search($id, $ids)));
-        }
-
-        $this->cloningIds[$id] = true;
-        try {
-            return $this->processValue($definition);
-        } finally {
-            unset($this->cloningIds[$id]);
-        }
+        return parent::processValue($value, $isRoot);
     }
 
     /**
@@ -106,7 +83,7 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
             return true;
         }
 
-        if ($definition->isDeprecated() || $definition->isPublic() || $definition->isLazy()) {
+        if ($definition->isDeprecated() || $definition->isPublic() || $definition->isPrivate() || $definition->isLazy()) {
             return false;
         }
 
@@ -120,6 +97,9 @@ class InlineServiceDefinitionsPass extends AbstractRecursivePass implements Repe
 
         $ids = array();
         foreach ($graph->getNode($id)->getInEdges() as $edge) {
+            if ($edge->isWeak()) {
+                return false;
+            }
             $ids[] = $edge->getSourceNode()->getId();
         }
 

@@ -440,8 +440,27 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $this->surrogate->addSurrogateCapability($request);
         }
 
+        // modify the X-Forwarded-For header if needed
+        $forwardedFor = $request->headers->get('X-Forwarded-For');
+        if ($forwardedFor) {
+            $request->headers->set('X-Forwarded-For', $forwardedFor.', '.$request->server->get('REMOTE_ADDR'));
+        } else {
+            $request->headers->set('X-Forwarded-For', $request->server->get('REMOTE_ADDR'));
+        }
+
+        // fix the client IP address by setting it to 127.0.0.1 as HttpCache
+        // is always called from the same process as the backend.
+        $request->server->set('REMOTE_ADDR', '127.0.0.1');
+
+        // make sure HttpCache is a trusted proxy
+        if (!in_array('127.0.0.1', $trustedProxies = Request::getTrustedProxies())) {
+            $trustedProxies[] = '127.0.0.1';
+            Request::setTrustedProxies($trustedProxies, Request::HEADER_X_FORWARDED_ALL);
+        }
+
         // always a "master" request (as the real master request can be in cache)
-        $response = SubRequestHandler::handle($this->kernel, $request, HttpKernelInterface::MASTER_REQUEST, $catch);
+        $response = $this->kernel->handle($request, HttpKernelInterface::MASTER_REQUEST, $catch);
+        // FIXME: we probably need to also catch exceptions if raw === true
 
         // we don't implement the stale-if-error on Requests, which is nonetheless part of the RFC
         if (null !== $entry && in_array($response->getStatusCode(), array(500, 502, 503, 504))) {
@@ -685,11 +704,11 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     private function waitForLock(Request $request)
     {
         $wait = 0;
-        while ($this->store->isLocked($request) && $wait < 5000000) {
+        while ($this->store->isLocked($request) && $wait < 100) {
             usleep(50000);
-            $wait += 50000;
+            ++$wait;
         }
 
-        return $wait < 5000000;
+        return $wait < 100;
     }
 }

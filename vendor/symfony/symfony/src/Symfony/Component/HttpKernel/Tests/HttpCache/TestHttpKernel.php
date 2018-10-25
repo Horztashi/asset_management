@@ -39,25 +39,15 @@ class TestHttpKernel extends HttpKernel implements ControllerResolverInterface, 
         parent::__construct(new EventDispatcher(), $this, null, $this);
     }
 
-    public function assert(\Closure $callback)
+    public function getBackendRequest()
     {
-        $trustedConfig = array(Request::getTrustedProxies(), Request::getTrustedHeaderSet());
-
-        list($trustedProxies, $trustedHeaderSet, $backendRequest) = $this->backendRequest;
-        Request::setTrustedProxies($trustedProxies, $trustedHeaderSet);
-
-        try {
-            $callback($backendRequest);
-        } finally {
-            list($trustedProxies, $trustedHeaderSet) = $trustedConfig;
-            Request::setTrustedProxies($trustedProxies, $trustedHeaderSet);
-        }
+        return $this->backendRequest;
     }
 
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = false)
     {
         $this->catch = $catch;
-        $this->backendRequest = array(Request::getTrustedProxies(), Request::getTrustedHeaderSet(), $request);
+        $this->backendRequest = $request;
 
         return parent::handle($request, $type, $catch);
     }

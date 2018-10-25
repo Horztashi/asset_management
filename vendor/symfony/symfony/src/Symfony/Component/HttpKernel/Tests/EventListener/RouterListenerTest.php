@@ -24,6 +24,7 @@ use Symfony\Component\HttpKernel\EventListener\ValidateRequestListener;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\Routing\Exception\NoConfigurationException;
 use Symfony\Component\Routing\RequestContext;
 
 class RouterListenerTest extends TestCase
@@ -186,18 +187,25 @@ class RouterListenerTest extends TestCase
         $this->assertSame(400, $response->getStatusCode());
     }
 
-    /**
-     * @expectedException \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
-     */
-    public function testRequestWithBadHost()
+    public function testNoRoutingConfigurationResponse()
     {
-        $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->getMock();
-        $request = Request::create('http://bad host %22/');
-        $event = new GetResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $requestStack = new RequestStack();
 
         $requestMatcher = $this->getMockBuilder('Symfony\Component\Routing\Matcher\RequestMatcherInterface')->getMock();
+        $requestMatcher
+            ->expects($this->once())
+            ->method('matchRequest')
+            ->willThrowException(new NoConfigurationException())
+        ;
 
-        $listener = new RouterListener($requestMatcher, $this->requestStack, new RequestContext());
-        $listener->onKernelRequest($event);
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addSubscriber(new RouterListener($requestMatcher, $requestStack, new RequestContext()));
+
+        $kernel = new HttpKernel($dispatcher, new ControllerResolver(), $requestStack, new ArgumentResolver());
+
+        $request = Request::create('http://localhost/');
+        $response = $kernel->handle($request);
+        $this->assertSame(404, $response->getStatusCode());
+        $this->assertContains('Welcome', $response->getContent());
     }
 }

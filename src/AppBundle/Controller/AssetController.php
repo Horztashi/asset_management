@@ -191,8 +191,9 @@ class AssetController extends Controller
 
 
         $response = new Response();
-//        $response->setContent(json_encode($assetsjson));
-        $response->setContent('[{id:1,code:"LOL"}]');
+        $response->setContent(json_encode($assetsjson));
+//        $response->setContent('[{id:1,code:"LOL"}]');
+
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }

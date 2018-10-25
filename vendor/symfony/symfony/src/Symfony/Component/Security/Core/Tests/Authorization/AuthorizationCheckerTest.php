@@ -61,9 +61,9 @@ class AuthorizationCheckerTest extends TestCase
             ->will($this->returnValue(true));
 
         // first run the token has not been re-authenticated yet, after isGranted is called, it should be equal
-        $this->assertNotSame($newToken, $this->tokenStorage->getToken());
+        $this->assertFalse($newToken === $this->tokenStorage->getToken());
         $this->assertTrue($this->authorizationChecker->isGranted('foo'));
-        $this->assertSame($newToken, $this->tokenStorage->getToken());
+        $this->assertTrue($newToken === $this->tokenStorage->getToken());
     }
 
     /**
@@ -90,7 +90,7 @@ class AuthorizationCheckerTest extends TestCase
             ->method('decide')
             ->will($this->returnValue($decide));
         $this->tokenStorage->setToken($token);
-        $this->assertSame($decide, $this->authorizationChecker->isGranted('ROLE_FOO'));
+        $this->assertTrue($decide === $this->authorizationChecker->isGranted('ROLE_FOO'));
     }
 
     public function isGrantedProvider()

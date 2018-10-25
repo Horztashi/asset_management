@@ -52,18 +52,18 @@ class RequestTest extends TestCase
 
     public function testGetUser()
     {
-        $request = Request::create('http://user:password@test.com');
+        $request = Request::create('http://user_test:password_test@test.com/');
         $user = $request->getUser();
 
-        $this->assertEquals('user', $user);
+        $this->assertEquals('user_test', $user);
     }
 
     public function testGetPassword()
     {
-        $request = Request::create('http://user:password@test.com');
+        $request = Request::create('http://user_test:password_test@test.com/');
         $password = $request->getPassword();
 
-        $this->assertEquals('password', $password);
+        $this->assertEquals('password_test', $password);
     }
 
     public function testIsNoCache()
@@ -372,7 +372,6 @@ class RequestTest extends TestCase
             array('js', array('application/javascript', 'application/x-javascript', 'text/javascript')),
             array('css', array('text/css')),
             array('json', array('application/json', 'application/x-json')),
-            array('jsonld', array('application/ld+json')),
             array('xml', array('text/xml', 'application/xml', 'application/x-xml')),
             array('rdf', array('application/rdf+xml')),
             array('atom', array('application/atom+xml')),
@@ -969,26 +968,6 @@ class RequestTest extends TestCase
         $request->getClientIps();
     }
 
-    /**
-     * @dataProvider getClientIpsWithConflictingHeadersProvider
-     */
-    public function testGetClientIpsOnlyXHttpForwardedForTrusted($httpForwarded, $httpXForwardedFor)
-    {
-        $request = new Request();
-
-        $server = array(
-            'REMOTE_ADDR' => '88.88.88.88',
-            'HTTP_FORWARDED' => $httpForwarded,
-            'HTTP_X_FORWARDED_FOR' => $httpXForwardedFor,
-        );
-
-        Request::setTrustedProxies(array('88.88.88.88'), Request::HEADER_X_FORWARDED_FOR);
-
-        $request->initialize(array(), array(), array(), array(), array(), $server);
-
-        $this->assertSame(array_reverse(explode(',', $httpXForwardedFor)), $request->getClientIps());
-    }
-
     public function getClientIpsWithConflictingHeadersProvider()
     {
         //        $httpForwarded                   $httpXForwardedFor
@@ -1523,18 +1502,8 @@ class RequestTest extends TestCase
         $request = new Request();
 
         $request->headers->set('Accept-language', 'zh, en-us; q=0.8, en; q=0.6');
-        $request->cookies->set('Foo', 'Bar');
 
-        $asString = (string) $request;
-
-        $this->assertContains('Accept-Language: zh, en-us; q=0.8, en; q=0.6', $asString);
-        $this->assertContains('Cookie: Foo=Bar', $asString);
-
-        $request->cookies->set('Another', 'Cookie');
-
-        $asString = (string) $request;
-
-        $this->assertContains('Cookie: Foo=Bar; Another=Cookie', $asString);
+        $this->assertContains('Accept-Language: zh, en-us; q=0.8, en; q=0.6', $request->__toString());
     }
 
     public function testIsMethod()
@@ -1766,7 +1735,7 @@ class RequestTest extends TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation The "Symfony\Component\HttpFoundation\Request::setTrustedHeaderName()" method is deprecated since Symfony 3.3 and will be removed in 4.0. Use the $trustedHeaderSet argument of the Request::setTrustedProxies() method instead.
+     * @expectedDeprecation The "Symfony\Component\HttpFoundation\Request::setTrustedHeaderName()" method is deprecated since version 3.3 and will be removed in 4.0. Use the $trustedHeaderSet argument of the Request::setTrustedProxies() method instead.
      */
     public function testLegacyTrustedProxies()
     {
@@ -1900,8 +1869,52 @@ class RequestTest extends TestCase
     {
         return array(
             array(
+                array(
+                    'X_ORIGINAL_URL' => '/foo/bar',
+                ),
+                array(),
+                '/foo/bar',
+            ),
+            array(
+                array(
+                    'X_REWRITE_URL' => '/foo/bar',
+                ),
+                array(),
+                '/foo/bar',
+            ),
+            array(
                 array(),
                 array(
+                    'IIS_WasUrlRewritten' => '1',
+                    'UNENCODED_URL' => '/foo/bar',
+                ),
+                '/foo/bar',
+            ),
+            array(
+                array(
+                    'X_ORIGINAL_URL' => '/foo/bar',
+                ),
+                array(
+                    'HTTP_X_ORIGINAL_URL' => '/foo/bar',
+                ),
+                '/foo/bar',
+            ),
+            array(
+                array(
+                    'X_ORIGINAL_URL' => '/foo/bar',
+                ),
+                array(
+                    'IIS_WasUrlRewritten' => '1',
+                    'UNENCODED_URL' => '/foo/bar',
+                ),
+                '/foo/bar',
+            ),
+            array(
+                array(
+                    'X_ORIGINAL_URL' => '/foo/bar',
+                ),
+                array(
+                    'HTTP_X_ORIGINAL_URL' => '/foo/bar',
                     'IIS_WasUrlRewritten' => '1',
                     'UNENCODED_URL' => '/foo/bar',
                 ),
@@ -2092,7 +2105,7 @@ class RequestTest extends TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation Checking only for cacheable HTTP methods with Symfony\Component\HttpFoundation\Request::isMethodSafe() is deprecated since Symfony 3.2 and will throw an exception in 4.0. Disable checking only for cacheable methods by calling the method with `false` as first argument or use the Request::isMethodCacheable() instead.
+     * @expectedDeprecation Checking only for cacheable HTTP methods with Symfony\Component\HttpFoundation\Request::isMethodSafe() is deprecated since version 3.2 and will throw an exception in 4.0. Disable checking only for cacheable methods by calling the method with `false` as first argument or use the Request::isMethodCacheable() instead.
      */
     public function testMethodSafeChecksCacheable()
     {
@@ -2180,6 +2193,36 @@ class RequestTest extends TestCase
         Request::setTrustedHeaderName(Request::HEADER_CLIENT_HOST, 'X_FORWARDED_HOST');
         Request::setTrustedHeaderName(Request::HEADER_CLIENT_PORT, 'X_FORWARDED_PORT');
         Request::setTrustedHeaderName(Request::HEADER_CLIENT_PROTO, 'X_FORWARDED_PROTO');
+    }
+
+    /**
+     * @dataProvider protocolVersionProvider
+     */
+    public function testProtocolVersion($serverProtocol, $trustedProxy, $via, $expected)
+    {
+        if ($trustedProxy) {
+            Request::setTrustedProxies(array('1.1.1.1'), -1);
+        }
+
+        $request = new Request();
+        $request->server->set('SERVER_PROTOCOL', $serverProtocol);
+        $request->server->set('REMOTE_ADDR', '1.1.1.1');
+        $request->headers->set('Via', $via);
+
+        $this->assertSame($expected, $request->getProtocolVersion());
+    }
+
+    public function protocolVersionProvider()
+    {
+        return array(
+            'untrusted without via' => array('HTTP/2.0', false, '', 'HTTP/2.0'),
+            'untrusted with via' => array('HTTP/2.0', false, '1.0 fred, 1.1 nowhere.com (Apache/1.1)', 'HTTP/2.0'),
+            'trusted without via' => array('HTTP/2.0', true, '', 'HTTP/2.0'),
+            'trusted with via' => array('HTTP/2.0', true, '1.0 fred, 1.1 nowhere.com (Apache/1.1)', 'HTTP/1.0'),
+            'trusted with via and protocol name' => array('HTTP/2.0', true, 'HTTP/1.0 fred, HTTP/1.1 nowhere.com (Apache/1.1)', 'HTTP/1.0'),
+            'trusted with broken via' => array('HTTP/2.0', true, 'HTTP/1^0 foo', 'HTTP/2.0'),
+            'trusted with partially-broken via' => array('HTTP/2.0', true, '1.0 fred, foo', 'HTTP/1.0'),
+        );
     }
 
     public function nonstandardRequestsData()

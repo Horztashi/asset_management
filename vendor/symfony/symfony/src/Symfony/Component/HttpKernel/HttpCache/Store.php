@@ -151,7 +151,7 @@ class Store implements StoreInterface
             return;
         }
 
-        $headers = $match[1];
+        list($req, $headers) = $match;
         if (file_exists($body = $this->getPath($headers['x-content-digest'][0]))) {
             return $this->restoreResponse($headers, $body);
         }

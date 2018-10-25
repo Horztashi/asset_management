@@ -106,10 +106,6 @@ class Button implements \IteratorAggregate, FormInterface
      */
     public function setParent(FormInterface $parent = null)
     {
-        if ($this->submitted) {
-            throw new AlreadySubmittedException('You cannot set the parent of a submitted button');
-        }
-
         $this->parent = $parent;
     }
 

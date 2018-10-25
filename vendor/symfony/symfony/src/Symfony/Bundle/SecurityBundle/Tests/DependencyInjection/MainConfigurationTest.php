@@ -29,6 +29,7 @@ class MainConfigurationTest extends TestCase
         ),
         'firewalls' => array(
             'stub' => array(),
+            'logout_on_user_change' => true,
         ),
     );
 
@@ -76,6 +77,7 @@ class MainConfigurationTest extends TestCase
                         'csrf_token_generator' => 'a_token_generator',
                         'csrf_token_id' => 'a_token_id',
                     ),
+                    'logout_on_user_change' => true,
                 ),
             ),
         );
@@ -84,9 +86,9 @@ class MainConfigurationTest extends TestCase
         $processor = new Processor();
         $configuration = new MainConfiguration(array(), array());
         $processedConfig = $processor->processConfiguration($configuration, array($config));
-        $this->assertArrayHasKey('csrf_token_generator', $processedConfig['firewalls']['stub']['logout']);
+        $this->assertTrue(isset($processedConfig['firewalls']['stub']['logout']['csrf_token_generator']));
         $this->assertEquals('a_token_generator', $processedConfig['firewalls']['stub']['logout']['csrf_token_generator']);
-        $this->assertArrayHasKey('csrf_token_id', $processedConfig['firewalls']['stub']['logout']);
+        $this->assertTrue(isset($processedConfig['firewalls']['stub']['logout']['csrf_token_id']));
         $this->assertEquals('a_token_id', $processedConfig['firewalls']['stub']['logout']['csrf_token_id']);
     }
 
@@ -105,6 +107,7 @@ class MainConfigurationTest extends TestCase
             'firewalls' => array(
                 'stub' => array(
                     'user_checker' => 'app.henk_checker',
+                    'logout_on_user_change' => true,
                 ),
             ),
         );

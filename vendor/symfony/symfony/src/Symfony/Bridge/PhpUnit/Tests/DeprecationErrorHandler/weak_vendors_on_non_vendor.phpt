@@ -55,20 +55,20 @@ $foo->testNonLegacyBar();
 --EXPECTF--
 Unsilenced deprecation notices (3)
 
-  2x: unsilenced foo deprecation
+unsilenced foo deprecation: 2x
     2x in FooTestCase::testLegacyFoo
 
-  1x: unsilenced bar deprecation
+unsilenced bar deprecation: 1x
     1x in FooTestCase::testNonLegacyBar
 
 Remaining deprecation notices (1)
 
-  1x: silenced bar deprecation
+silenced bar deprecation: 1x
     1x in FooTestCase::testNonLegacyBar
 
 Legacy deprecation notices (1)
 
 Other deprecation notices (1)
 
-  1x: root deprecation
+root deprecation: 1x
 
