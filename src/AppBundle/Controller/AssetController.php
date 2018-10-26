@@ -179,20 +179,19 @@ class AssetController extends Controller
      * @Route("/api/asset_list", name="api_asset_list")
      * @Method("GET")
      */
-    public function jsonAction()
+    public function jsonAction(Request $request)
     {
+        $q = $request->query->get('q');
+
         $em = $this->getDoctrine()->getManager();
-        $assets = $em->getRepository('AppBundle:Asset')->findAll();
+        $assets = $em->getRepository('AppBundle:Asset')->findAssetByCodeLike($q);
 
         $assetjson = array();
         foreach($assets as $asset)
-            $assetsjson[] = array('id' => $asset->getId(), 'code'=> $asset->getCode());
-
-
+            $assetjson[] = array('id' => $asset->getId(), 'text'=> $asset->getCode() . " - ". $asset->getDescription() . " - ". $asset->getLocation());
 
         $response = new Response();
-        $response->setContent(json_encode($assetsjson));
-//        $response->setContent('[{id:1,code:"LOL"}]');
+        $response->setContent(json_encode($assetjson));
 
         $response->headers->set('Content-Type', 'application/json');
         return $response;

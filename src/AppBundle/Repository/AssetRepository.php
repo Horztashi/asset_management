@@ -11,6 +11,15 @@ namespace AppBundle\Repository;
 class AssetRepository extends \Doctrine\ORM\EntityRepository
 {
 
+	public function findAssetByCodeLike($code){
+        $result = $this->createQueryBuilder('a')
+					   ->where('a.code LIKE :code')
+					   ->setParameter('code', $code . "%")
+					   ->getQuery()
+					   ->getResult();
+		return $result;
+	}
+
 	public function findAssetsWithoutUser(){
 	
 		$query = $this->getEntityManager()

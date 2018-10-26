@@ -147,7 +147,7 @@ class Asset
 
 
     public function __toString(){
-        return $this->getCode();
+        return $this->getCode() . " - ". $this->getDescription() . " - ". $this->getLocation();
     }
 
     /**

@@ -20,15 +20,11 @@ class UserAssetAssignType extends AbstractType
         $builder->add('assets', Select2EntityType::class, [
                     'multiple' => true,
                     'remote_route' => 'api_asset_list',
-                    'class' => '\AppBundle\Entity\Asset',
-                    'primary_key' => 'id',
-                    'text_property' => 'code',
-                    'minimum_input_length' => 2,
+                    'class' => 'AppBundle:Asset',
+                    'minimum_input_length' => 3,
                     'page_limit' => 10,
                     'allow_clear' => true,
                     'delay' => 250,
-                    'cache' => true,
-                    'cache_timeout' => 60000, // if 'cache' is true
                     'language' => 'en',
                     'placeholder' => 'Select assigned assets',
                     // 'object_manager' => $objectManager, // inject a custom object / entity manager 
