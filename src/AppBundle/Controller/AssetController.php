@@ -135,7 +135,7 @@ class AssetController extends Controller
             return $this->redirectToRoute('asset_show', array('id' => $asset->getId()));
         }
 
-        return $this->render('asset/edit.html.twig', array(
+        return $this->render('generic_form_view.html.twig', array(
             'asset' => $asset,
             'form' => $editForm->createView(),
             'title' => 'Edit asset'

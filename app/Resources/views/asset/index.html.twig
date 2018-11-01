@@ -1,57 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <div id = "datalist" class = "datalist">
-        <div class = "container title">
-            <div class = "row">
-                <div class = "col-md-4"><h4>
-                    {% if item_type is defined %}
-                        List of Assets | {{ item_type }} | {{ item_name }}
-                    {% else %}
-                        List of Assets
-                    {% endif %}
-                </h4></div>
-                <div class = "col-md-5 "><input class = "search form-control" placeholder = "Search"></div>
-                <div class = "col-md-3 "><a class = "btn btn-success btn-block" href="{{ path('asset_new') }}">
-                        <i class = "fa fa-plus"></i>Add</a>
-                </div>
-            </div>
-            <div class = "row pull-right">
-                <div class = "col-md-12 pull-right">
-                    <div class = "btn-group">
-                        <div class ="btn btn-default btn-label">Sort By</div>
-                        <div class ="btn btn-primary sort" data-sort ="code">Code</div>
-                        <div class ="btn btn-primary sort" data-sort ="description">Description</div>
-                        <div class ="btn btn-primary sort" data-sort ="status">Status</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class = "container list">
-            {% if assets is not empty %}
-                {% for asset in assets %}
-                        <div class = "row {% if asset.status.id in [2,3,4,5] %}bg-danger{% endif %}">
-                            <div class = "col-md-3 code"><a href = "{{path('asset_show',{'id':asset.id})}}">{{ asset.code }}</a></div>
-                            <div class = "col-md-4 description"><span>{{ asset.description }}</span></div>
-                            <div class = "col-md-3 status"><span>{{ asset.status.name }}</span></div>
-                            <div class = "col-md-1 status"><span>{{ asset.users.count }} users </span></div>
-                        </div>
-                {% endfor %}
-            {% else %}
-                <div class = "row">
-                    <div class = "col-md-12">
-                        <h2 class = "text-muted text-center"><i class = "fa fa-frown-o"></i>Nothing to see here</h2>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-        <div class = "container">
-            <div class = "row text-center">
-                    <ul class="pagination"></ul>
-            </div>
-        </div>
-    </div>
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}" />
 {% endblock %}
 
 
+{% block body %}
+    <div class = "container border mb-4">
+        <div class='row mt-1 mb-1'>
+            <div class="col-auto"><h3>Assets</h3></div>
+            <div class="ml-auto col-2">
+                <a href="{{path('asset_new')}}" class="btn btn-success btn-block">
+                    <i class="fa fa-plus"></i>&nbsp;Add Asset
+                </a>        
+            </div>
+        </div>
+        <div class='row'><div class='col-12'>
+            <table class='table table-sm'>
+                <thead class='thead-dark'>
+                    <th>Code</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Users</th>
+                </thead>
+                <tbody>
+                    {% if assets is not empty %}
+                        {% for asset in assets %}
+                        <tr>
+                            <td>
+                                <a href = "{{path('asset_show',{'id':asset.id})}}">{{ asset.code }}</a>
+                            </td>
+                            <td>{{ asset.description }}</td>
+                            <td>{{ asset.status.name }}</td>
+                            <td>{{ asset.users.count }} users</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td><h2 class = "text-muted text-center"><i class = "fa fa-frown-o"></i>Nothing to see here</h2></td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+        <script src="{{ asset('js/datatables.min.js') }}"></script>
+        <script type="text/javascript">
+            $(function(){
+                $('.table').DataTable();
+            });
+        </script>
+{% endblock %}

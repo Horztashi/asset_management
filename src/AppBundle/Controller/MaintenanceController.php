@@ -46,6 +46,32 @@ class MaintenanceController extends Controller
     }
 
     /**
+     * Creates a new maintenance entity.
+     *
+     * @Route("/new", name="maintenance_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $maintenance = new Maintenance();
+        $form = $this->createForm('AppBundle\Form\MaintenanceType', $maintenance);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($maintenance);
+            $em->flush();
+            return $this->redirectToRoute('maintenance_show', array('id' => $maintenance->getId()));
+        }
+
+        return $this->render('maintenance/form.html.twig', array(
+            'maintenance' => $maintenance,
+            'form' => $form->createView(),
+            'title' => 'New Maintenance'
+        ));
+    }
+
+    /**
      * Finds and displays a maintenance entity.
      *
      * @Route("/{id}", name="maintenance_show")
@@ -69,13 +95,16 @@ class MaintenanceController extends Controller
         $editForm = $this->createForm('AppBundle\Form\MaintenanceType', $maintenance);
         $editForm->handleRequest($request);
 
+        if(!is_null($maintenance->getActual()))
+            return $this->redirectToRoute('maintenance_show',array('id' => $maintenance->getId()));
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('maintenance_show', array('id' => $maintenance->getId()));
         }
 
-        return $this->render('maintenance/edit.html.twig', array(
+        return $this->render('maintenance/form.html.twig', array(
             'maintenance' => $maintenance,
             'form' => $editForm->createView(),
             'title' => 'Maintenance Update'

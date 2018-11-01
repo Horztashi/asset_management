@@ -1,51 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<div class = "container information" style = "">
+	<div class = "container border" style = "">
         <div class = "row">
-            <div class = "col-md-12">
+            <div class = "col-auto mr-auto">
+                <h3>Maintenance</h3>
+            </div>
+            <div class = "col-auto">
                 <div class = "btn-group pull-right">
-                    {% if maintenance.actual is not null %}
-                        <a class = "btn btn-success" disabled = "disabled">Done</a>
-                        <a class = "btn btn-primary" disabled = "disabled">Edit Maintenance</a>
-                        <a class = "btn btn-primary" disabled = "disabled">Delete</a>
-                    {% else %}
+                    {% if maintenance.actual is null %}
                         <a class = "btn btn-primary" href="{{ path('maintenance_done', { 'id': maintenance.id }) }}">Set as DONE</a>
                         <a class = "btn btn-primary" href="{{ path('maintenance_edit', { 'id': maintenance.id }) }}">Edit Maintenance</a>
                         <a class = "btn btn-primary" href="{{ path('maintenance_delete', { 'id': maintenance.id }) }}">Delete</a>
                     {% endif %}
-
                 </div>
             </div>
         </div>
         <div class = "row">
-            <div class = "col-sm-12 text-center"><h4>General Information</h4></div>
+            <div class = "col-12 text-center"><h4>General Information</h4></div>
         </div>
         <div class = "row">
-        	<div class = "col-md-3"><label>Title</label></div>
-        	<div class = "col-md-3">{{ maintenance.title }}</div>
-        	<div class = "col-md-3"><label>Status</label></div>
-        	<div class = "col-md-3">{% if maintenance.actual %}DONE{% else %} NOT DONE {% endif %}</div>
+        	<div class = "col-3"><label>Title</label></div>
+        	<div class = "col-3">{{ maintenance.title }}</div>
+        	<div class = "col-3"><label>Status</label></div>
+        	<div class = "col-3">{% if maintenance.actual %}DONE{% else %} NOT DONE {% endif %}</div>
         </div>
         <div class = "row">
-        	<div class = "col-md-3"><label>Schedule Date</label></div>
-        	<div class = "col-md-3">{{ maintenance.schedule | date('F d, Y') }}</div>
-        	<div class = "col-md-3"><label>Actual Date</label></div>
-        	<div class = "col-md-3">{% if maintenance.actual %}{{ maintenance.actual | date('F d, Y') }}{% endif %}</div>
+        	<div class = "col-3"><label>Schedule Date</label></div>
+        	<div class = "col-3">{{ maintenance.schedule | date('F d, Y') }}</div>
+        	<div class = "col-3"><label>Actual Date</label></div>
+        	<div class = "col-3">{% if maintenance.actual %}{{ maintenance.actual | date('F d, Y') }}{% endif %}</div>
         </div>
         <div class = "row">
-        	<div class = "col-md-3"><label>Reason</label></div>
-        	<div class = "col-md-9">{{ maintenance.reason }}</div>
+        	<div class = "col-3"><label>Reason</label></div>
+        	<div class = "col-9">{{ maintenance.reason }}</div>
         </div>
         <div class = "row">
-            <div class = "col-sm-12 text-center"><h4>Affected Assets</h4></div>
+            <div class = "col-12 text-center"><h4>Affected Assets</h4></div>
         </div>
         {% for asset in maintenance.assets %}
         	<div class = "row">
-        		<div class = "col-md-3"><a href = "{{ path('asset_show', {id: asset.id})}}">{{asset.code}}</a></div>
-        		<div class = "col-md-3">{{asset.description}}</div>
-        		<div class = "col-md-3"></div>
-        		<div class = "col-md-3">{{asset.status.name}}</div>
+        		<div class = "col-3"><a href = "{{ path('asset_show', {id: asset.id})}}">{{asset.code}}</a></div>
+        		<div class = "col-3">{{asset.description}}</div>
+        		<div class = "col-3"></div>
+        		<div class = "col-3">{{asset.status.name}}</div>
         	</div>
         {% endfor %}
     </div>

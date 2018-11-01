@@ -1,52 +1,55 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/datatables.min.css') }}" />
+{% endblock %}
+
 {% block body %}
-    <div id = "datalist" class = "datalist">
-        <div class = "container">
-            <div class = "row">
-                <div class = "col-md-6"><h4>List of Users</h4></div>
-                <div class = "col-md-4"><input class = "search form-control" placeholder = "Search"></div>
-                <div class = "col-md-2">
-                    <a class = "btn btn-success btn-block"  href="{{path('user_new')}}"><i class = "fa fa-plus"></i>Add</a>
-                </div>
+        <div class = "container border mb-4">
+        <div class='row mt-1 mb-1'>
+            <div class="col-auto"><h3>users</h3></div>
+            <div class="ml-auto col-2">
+                <a href="{{path('user_new')}}" class="btn btn-success btn-block">
+                    <i class="fa fa-plus"></i>&nbsp;Add Employee
+                </a>        
             </div>
         </div>
-
-        <div class = "container list">
-            {% for user in users %}
-                <div class = "row">
-                    <div class = "col-md-2 border-right">
-                        <div class = "btn-group">
-                            <a href="{{ path('user_show',{'id':user.id})}}" class = "btn btn btn-primary"><i class="far fa-user"></i></a>
-                            <a href="{{ path('user_edit',{'id':user.id})}}" class = "btn btn btn-primary"><i class="fa fa-edit"></i></a>
-                        </div>
-                    </div>
-                    <div class = "col-md-4">
-                        <span class="empno">{{ user.employeenumber }}</span>
-                        <span>
-                            {% if user.enabled %}
-                                <span class = "label label-success">ACTIVE</span>
-                            {% else %}
-                                <span class = "label label-danger">NOT ACTIVE</span>
-                            {% endif %}                            
-                        </span>
-
-                        <div class="name">{{ user.fullname }}</div>
-                    </div>
-                    <div class = "col-md-4">
-                        <span class="email">{{ user.email }}</span>
-                    </div>
-                    <div class = "col-md-2">
-                        <span class="assetcount">{{ user.assets.count }} Assets</span>                        
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-
-        <div class = "container">
-            <div class = "row text-center">
-                    <ul class="pagination"></ul>
-            </div>
-        </div>
+        <div class='row'><div class='col-12'>
+            <table class='table table-sm'>
+                <thead class='thead-dark'>
+                    <th>Employee</th>
+                    <th>Status</th>
+                    <th>Email</th>
+                    <th>Asset Count</th>
+                </thead>
+                <tbody>
+                    {% if users is not empty %}
+                        {% for user in users %}
+                        <tr>
+                            <td>
+                                (<a href = "{{path('user_show',{'id':user.id})}}">
+                                    {{ user.employeenumber }}
+                                </a>) {{ user.fullname }}
+                            </td>
+                            <td>{% if user.enabled %}ACTIVE{% else %}INACTIVE{% endif %}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.assets.count}}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr><td><h2 class = "text-muted text-center"><i class = "fa fa-frown-o"></i>Nothing to see here</h2></td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div></div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+        <script src="{{ asset('js/datatables.min.js') }}"></script>
+        <script type="text/javascript">
+            $(function(){
+                $('.table').DataTable();
+            });
+        </script>
 {% endblock %}
