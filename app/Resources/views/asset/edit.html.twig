@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'jquery.collection.html.twig' %}
+
+{% block body %}
+	<div class = "container">
+		<h4 class = "text-center">{{ title }}</h4>
+
+        {{ form_start(form) }}
+	    {{ form_widget(form) }}
+	    <input type="submit" class = "btn btn-success btn-block" value="Submit">	
+        {{ form_end(form) }}
+	</div>
+
+{% endblock %}

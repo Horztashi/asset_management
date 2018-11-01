@@ -2,55 +2,64 @@
 {% form_theme form 'jquery.collection.html.twig' %}
 
 {% block body %}
-    <div class = "container border mb-4">
-        <div class='row mt-1 mb-1'>
-            <div class="col-auto"><h3>List of Maintenance</h3></div>
-            <div class="ml-auto col-2">
-                <a href="{{path('maintenance_new')}}" class="btn btn-success btn-block">
-                    <i class="fa fa-plus"></i>&nbsp;Add Maintenance
-                </a>        
+    <div id = "datalist" class = "datalist">
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-md-6"><h4>Scheduled Maintenance</h4></div>
+                <div class = "col-md-4"><input class = "search form-control" placeholder = "Search"></div>
+                <div class = "col-md-2">
+                    <a class = "btn btn-success btn-block"  data-toggle = "modal" data-target = "#newModal"><i class = "fa fa-plus"></i>Add</a>
+                </div>
             </div>
         </div>
-        <div class='row'><div class='col-12'>
-            <table class='table table-sm'>
-                <thead class='thead-dark'>
-                    <th>Maintenance</th>
-                    <th>Vendor</th>
-                    <th>Schedule Date</th>
-                    <th>Status</th>
-                    <th></th>
-                </thead>
-                <tbody>
-                    {% if maintenances is not empty %}
-                        {% for maintenance in maintenances %}
-                        <tr>
-                            <td>
-                                <a href = "{{ path('maintenance_show', {id:maintenance.id}) }}">{{maintenance.title}}</a>
-                            </td>
-                            <td >{{maintenance.vendor.name}}</td>
-                            <td >{{maintenance.schedule | date('F d, Y')}}</td>
-                            <td class = "text-center">
-                                {% if date(maintenance.actual) > date(maintenance.schedule) %}
-                                    <span class = "badge badge-danger">Overdue</span>
-                                {% else %}
-                                    <span class = "badge badge-success">Not overdue</span>
-                                {% endif %}
-                            </td>
-                            <td >
-                                {% if maintenance.actual is not null %}
-                                    <a class = "btn btn-block btn-default" disabled = "disabled">DONE</a>
-                                {% else %}
-                                    <a class = "btn btn-success btn-block" href="{{ path('maintenance_done', { 'id': maintenance.id }) }}">Set as DONE</a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr><td><h2 class = "text-muted text-center"><i class = "fa fa-frown-o"></i>Nothing to see here</h2></td></tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div></div>
+
+        <div class = "container list">
+            {% for maintenance in maintenances %}
+                <div class = "row">
+                    <div class = "col-md-4">
+                        <a href = "{{ path('maintenance_show', {id:maintenance.id}) }}">{{maintenance.title}}</a>
+                    </div>
+                    <div class = "col-md-2">{{maintenance.vendor.name}}</div>
+                    <div class = "col-md-2">{{maintenance.schedule | date('F d, Y')}}</div>
+                    <div class = "col-md-2 text-center">
+                        {% if date(maintenance.actual) > date(maintenance.schedule) %}
+                            <span class = "label label-danger">Overdue</span>
+                        {% else %}
+                            <span class = "label label-success">Not overdue</span>
+                        {% endif %}
+                    </div>
+                    <div class = "col-md-2">
+                        {% if maintenance.actual is not null %}
+                            <a class = "btn btn-block btn-default" disabled = "disabled">DONE</a>
+                        {% else %}
+                            <a class = "btn btn-success btn-block" href="{{ path('maintenance_done', { 'id': maintenance.id }) }}">Set as DONE</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class = "container">
+            <div class = "row text-center">
+                    <ul class="pagination"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div class = "modal" id = "newModal" tabindex="-1" role = "dialog">
+        <div class = "modal-dialog" role = "document">
+            <div class = "modal-content">
+                <div class = "modal-header">
+                    <h5 class = "modal-title">Add Maintenance Schedule</h5>
+                </div>
+                <div class = "modal-body">
+                    {{form_start(form)}}
+                    {{form_widget(form)}}
+                    <button class = "btn btn-block btn-success" type="submit"><i class = "fa fa-plus"></i>Add</button>
+                    {{form_end(form)}}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block javascripts %}

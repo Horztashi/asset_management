@@ -3,12 +3,11 @@
 
 {% block body %}
 
-    <div class = "container border mb-4">
-        <div class = "row pt-2 pb-2">
-            <div class = "col-auto text-center mr-auto">
-                <h4>{{asset.code}}&nbsp;|&nbsp;{{asset.description}}</h4><i></i></div>
-            <div class = "col-auto text-center">
-                <div class = "btn-group  pull-right">
+    <div class = "container information" style = "">
+        <div class = "row">
+            <div class = "col-sm-6 text-center"><h4>{{asset.code}}</h4><i></i></div>
+            <div class = "col-md-6 text-center">
+                <div class = "btn-group pull-right">
                     {% if is_granted('ROLE_ADMIN') %}
                     <a class = "btn btn-primary" href="{{ path('asset_edit', { 'id': asset.id }) }}">Edit Asset</a>
                     <a class = "btn btn-primary"  href="{{ path('asset_delete',{id:asset.id})}}">Delete Asset</a>
@@ -19,14 +18,17 @@
                 </div>
             </div>
         </div>
-        <div class = "row border-bottom">
-            <div class = "col-12 text-center"><h4>General Information</h4></div>
+        <div class = "row">
+            <div class = "col-sm-12 text-center"><h4>General Information</h4></div>
         </div>
         <div class = "row">
-            <div class = "col-3"><label>Critical</label></div>
-            <div class = "col-3">{% if asset.iscritical %}YES{% else %}NO{% endif %}</div>
-            <div class = "col-3"><label>Location</label></div>
-            <div class = "col-3">
+            <div class = "col-sm-12 text-center"><h6>{{asset.description}}</h6><i></i></div>
+        </div>
+        <div class = "row">
+            <div class = "col-sm-3"><label>Critical</label></div>
+            <div class = "col-sm-3">{% if asset.iscritical %}YES{% else %}NO{% endif %}</div>
+            <div class = "col-sm-3"><label>Location</label></div>
+            <div class = "col-sm-3">
                 {% if asset.location %}
                     {{asset.location.name}}
                 {% else %}
@@ -35,16 +37,16 @@
             </div>
         </div>
         <div class = "row">
-            <div class = "col-3"><label>Category</label></div>
-            <div class = "col-3">
+            <div class = "col-sm-3"><label>Category</label></div>
+            <div class = "col-sm-3">
                 {% if asset.category %}
                     {{asset.category.name}}
                 {% else %}
                     <span class = "text-muted"> NOT ASSIGNED</span>
                 {% endif %}
             </div>
-            <div class = "col-3"><label>Model</label></div>
-            <div class = "col-3">
+            <div class = "col-sm-3"><label>Model</label></div>
+            <div class = "col-sm-3">
                 {% if asset.model %}                
                     {{asset.model.name}} ({{asset.model.brand.name}})
                 {% else %}
@@ -53,51 +55,51 @@
             </div>
         </div>
         <div class = "row">
-            <div class = "col-3"><label>Status</label></div>
-            <div class = "col-3">
+            <div class = "col-sm-3"><label>Status</label></div>
+            <div class = "col-sm-3">
                 {% if asset.status %}                                
                     {{asset.status.name}}
                 {% else %}
                     <span class = "text-muted"> NOT ASSIGNED</span>
                 {% endif %}
             </div>
-            <div class = "col-3"><label>Asset Type</label></div>
-            <div class = "col-3">{% if asset.ispersonal %}PERSONAL{% else %}GENERAL{% endif %}</div>
+            <div class = "col-sm-3"><label>Asset Type</label></div>
+            <div class = "col-sm-3">{% if asset.ispersonal %}PERSONAL{% else %}GENERAL{% endif %}</div>
         </div>
 
         {% if is_granted('ROLE_ADMIN') %}
             <div class = "row">
-                <div class = "col-12 text-center border-bottom"><h4>Purchase Information</h4></div>
+                <div class = "col-sm-12 text-center"><h4>Purchase Information</h4></div>
             </div>
             <div class = "row">
-                <div class = "col-3"><label>Vendor</label></div>
-                <div class = "col-3">
+                <div class = "col-sm-3"><label>Vendor</label></div>
+                <div class = "col-sm-3">
                 {% if asset.vendor %}   
                     {{asset.vendor.name}}
                 {% else %}
                     <span class = "text-muted"> NOT ASSIGNED</span>
                 {% endif %}
                 </div>
-                <div class = "col-3"><label>Price</label></div>
-                <div class = "col-3">PHP {{asset.price | number_format(2,'.',',')}}</div>
+                <div class = "col-sm-3"><label>Price</label></div>
+                <div class = "col-sm-3">PHP {{asset.price | number_format(2,'.',',')}}</div>
             </div>
             <div class = "row">
-                <div class = "col-3"><label>P.O. Number</label></div>
-                <div class = "col-3">{{asset.ponumber}}</div>
-                <div class = "col-3"><label>Manufacturer Serial Number</label></div>
-                <div class = "col-3">{{asset.manufacturerserial}}</div>
+                <div class = "col-sm-3"><label>P.O. Number</label></div>
+                <div class = "col-sm-3">{{asset.ponumber}}</div>
+                <div class = "col-sm-3"><label>Manufacturer Serial Number</label></div>
+                <div class = "col-sm-3">{{asset.manufacturerserial}}</div>
             </div>
             <div class = "row">
-                <div class = "col-3"><label>Purchase Date</label></div>
-                <div class = "col-3">
+                <div class = "col-sm-3"><label>Purchase Date</label></div>
+                <div class = "col-sm-3">
                     {% if asset.purchasedate %}
                         {{asset.purchasedate|date('F d, Y')}}
                     {% else %}
                         <span class = "text-muted"> NOT ASSIGNED</span>
                     {% endif %}
                 </div>
-                <div class = "col-3"><label>Service Date</label></div>
-                <div class = "col-3">
+                <div class = "col-sm-3"><label>Service Date</label></div>
+                <div class = "col-sm-3">
                     {% if asset.servicedate %}
                         {{asset.servicedate|date('F d, Y')}}
                     {% else %}
@@ -106,16 +108,16 @@
                 </div>
             </div>
             <div class = "row">
-                <div class = "col-3"><label>Warranty Start</label></div>
-                <div class = "col-3">
+                <div class = "col-sm-3"><label>Warranty Start</label></div>
+                <div class = "col-sm-3">
                     {% if asset.warrantystart %}
                         {{asset.warrantystart|date('F d, Y')}}
                     {% else %}
                         <span class = "text-muted"> NOT ASSIGNED</span>
                     {% endif %}
                 </div>
-                <div class = "col-3"><label>Warranty End</label></div>
-                <div class = "col-3">
+                <div class = "col-sm-3"><label>Warranty End</label></div>
+                <div class = "col-sm-3">
                     {% if asset.warrantyend %}
                         {{asset.warrantyend|date('F d, Y')}}
                     {% else %}
@@ -125,59 +127,47 @@
             </div>
         {% endif %}
         <div class = "row">
-            <div class = "col-12 text-center border-bottom"><h4>Custodians</h4></div>
+            <div class = "col-sm-12 text-center"><h4>Custodians</h4></div>
         </div>
-        {% if asset.users is not empty %}
-            {% for user in asset.users %}
-                <div class = "row">
-                    <div class = "col-3"><a href = " {{ path('user_show',{id: user.id}) }}">{{user.employeenumber}}</a></div>
-                    <div class = "col-5">{{user.fullname}}</div>
-                    <div class = "col-4">
-                        {% if user.enabled %}
-                            <span class = "label label-success">ACTIVE</span>
-                        {% else %}
-                            <span class = "label label-danger">NOT ACTIVE</span>
-                        {% endif %}
-                    </div>
+        {% for user in asset.users %}
+            <div class = "row">
+                <div class = "col-md-3"><a href = " {{ path('user_show',{id: user.id}) }}">{{user.employeenumber}}</a></div>
+                <div class = "col-md-5">{{user.fullname}}</div>
+                <div class = "col-md-4">
+                    {% if user.enabled %}
+                        <span class = "label label-success">ACTIVE</span>
+                    {% else %}
+                        <span class = "label label-danger">NOT ACTIVE</span>
+                    {% endif %}
                 </div>
-            {% endfor %}
-        {% else %}
-            <div class="row"><div class="col-12 text-center p-4">
-                <div class="display-4 font-italic">No custodian assigned yet</div>
-            </div></div>
-        {% endif %}
+            </div>
+        {% endfor %}
 
         <div class = "row">
-            <div class = "col-12 text-center border-bottom"><h4>Scheduled Maintenance</h4></div>
+            <div class = "col-sm-12 text-center"><h4>Scheduled Maintenance</h4></div>
         </div>
-        {% if asset.maintenances is not empty %}
-            {% for maintenance in asset.maintenances %}
-                <div class = "row">
-                    <div class = "col-3">
-                        <a href = " {{ path('maintenance_show',{id: maintenance.id}) }}">{{maintenance.title}}</a>
-                    </div>
-                    <div class = "col-3">{{maintenance.schedule | date('F d, Y')}}</div>
-                    <div class = "col-3 text-center">
-                        {% if date(maintenance.actual) > date(maintenance.schedule) %}
-                            <span class = "label label-danger">Overdue</span>
-                        {% else %}
-                            <span class = "label label-success">Not overdue</span>
-                        {% endif %}
-                    </div>
-                    <div class = "col-3">
-                        {% if maintenance.actual is not null %}
-                            <a class = "btn btn-block btn-default" disabled = "disabled">DONE</a>
-                        {% else %}
-                            <a class = "btn btn-block btn-default" disabled = "disabled">NOT DONE</a>
-                        {% endif %}
-                    </div>
+        {% for maintenance in asset.maintenances %}
+            <div class = "row">
+                <div class = "col-md-3">
+                    <a href = " {{ path('maintenance_show',{id: maintenance.id}) }}">{{maintenance.title}}</a>
                 </div>
-            {% endfor %}
-        {% else %}
-            <div class="row"><div class="col-12 text-center p-4">
-                <div class="display-4 font-italic">No Maintenance Scheduled</div>
-            </div></div>
-        {% endif %}
+                <div class = "col-md-3">{{maintenance.schedule | date('F d, Y')}}</div>
+                <div class = "col-md-3 text-center">
+                    {% if date(maintenance.actual) > date(maintenance.schedule) %}
+                        <span class = "label label-danger">Overdue</span>
+                    {% else %}
+                        <span class = "label label-success">Not overdue</span>
+                    {% endif %}
+                </div>
+                <div class = "col-md-3">
+                    {% if maintenance.actual is not null %}
+                        <a class = "btn btn-block btn-default" disabled = "disabled">DONE</a>
+                    {% else %}
+                        <a class = "btn btn-block btn-default" disabled = "disabled">NOT DONE</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
     </div>
 
      <div class = "modal" id = "assignModal" tabindex="-1" role = "dialog">

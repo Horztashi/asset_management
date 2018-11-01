@@ -658,7 +658,7 @@ class Asset
      */
     public function addMaintenance(\AppBundle\Entity\Maintenance $maintenance)
     {
-        if(!$this->maintenances->contains($maintenance))
+        if(!$this->maintenance->contains($maintenance))
         {
             $this->maintenance[] = $maintenance;
         }
@@ -673,9 +673,9 @@ class Asset
      */
     public function removeMaintenance(\AppBundle\Entity\Maintenance $maintenance)
     {
-        if($this->maintenances->contains($maintenance))
+        if($this->maintenance->contains($maintenance))
         {
-            $this->maintenances->removeElement($maintenance);
+            $this->maintenance->removeElement($maintenance);
         }
     }
 
